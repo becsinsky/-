@@ -3098,7 +3098,7 @@ async function hashPassword(pw) {
 }
 
 function isSessionUnlocked() {
-    return sessionStorage.getItem(PW_SESSION_KEY) === 'true';
+    return localStorage.getItem(PW_SESSION_KEY) === 'true';
 }
 
 function checkAndShowLockScreen() {
@@ -3136,7 +3136,7 @@ function initLockScreen() {
         if (!pw) { errorMsg.textContent = 'パスワードを入力してください'; return; }
         const hash = await hashPassword(pw);
         if (hash === FIXED_PW_HASH) {
-            sessionStorage.setItem(PW_SESSION_KEY, 'true');
+            localStorage.setItem(PW_SESSION_KEY, 'true');
             const overlay = document.getElementById('lockOverlay');
             overlay.classList.add('unlocked');
             setTimeout(() => { overlay.style.display = 'none'; overlay.classList.remove('unlocked'); }, 400);
