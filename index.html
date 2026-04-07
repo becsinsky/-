@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>会計帳簿ソフト 2025 | 確定申告対応</title>
-    <meta name="description" content="領収書から仕訳帳・損益計算書を自動作成。青色申告対応の無料会計ソフト。">
+    <title>会計帳簿ソフト 2026 | 確定申告対応</title>
+    <meta name="description" content="領収書から仕訳帳・損益計算書を自動作成。令和8年分（2026年）確定申告対応の自作会計ソフト。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
@@ -13,7 +13,7 @@
     
 <style>
 /* ============================================================
-   会計帳簿ソフト 2025 - スタイルシート
+   会計帳簿ソフト 2026 - スタイルシート
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -255,6 +255,50 @@ body {
 
 .form-group-full {
   grid-column: 1 / -1;
+}
+
+/* ゴミ箱バッジ */
+.trash-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  margin-left: 4px;
+  background: var(--danger, #ef5350);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+/* 仕訳帳合計バー */
+.journal-totals-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+.jtotal-item { white-space: nowrap; }
+.jtotal-sep { color: var(--border); font-size: 1rem; }
+
+.form-group-memo {
+  grid-column: auto;
+}
+
+@media (min-width: 900px) {
+  .form-group-memo {
+    grid-column: span 2;
+  }
 }
 
 label {
@@ -1766,6 +1810,178 @@ select.form-control {
 }
 
 /* ============================================================
+   簡易電卓
+   ============================================================ */
+.calc-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calc-input-wrap .form-control {
+  padding-right: 44px;
+}
+
+.calc-toggle-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
+  transition: var(--transition);
+  line-height: 1;
+  z-index: 2;
+}
+
+.calc-toggle-btn:hover {
+  color: var(--primary-light);
+  filter: drop-shadow(0 0 4px rgba(79, 110, 247, 0.5));
+}
+
+.calc-popup-anchor {
+  position: relative;
+}
+
+.calc-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 200;
+  width: 280px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(79, 110, 247, 0.1);
+  animation: calcPopIn 0.15s ease;
+}
+
+@keyframes calcPopIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.calc-panel.open {
+  display: block;
+}
+
+.calc-display {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  text-align: right;
+  font-family: 'Inter', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  min-height: 40px;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.calc-display .calc-expression {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.calc-btn {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'Inter', var(--font-base);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 10px 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.calc-btn:hover {
+  background: rgba(79, 110, 247, 0.1);
+  border-color: var(--border-hover);
+}
+
+.calc-btn:active {
+  transform: scale(0.95);
+}
+
+.calc-btn.calc-op {
+  background: rgba(79, 110, 247, 0.1);
+  color: var(--primary-light);
+  border-color: rgba(79, 110, 247, 0.25);
+}
+
+.calc-btn.calc-op:hover {
+  background: rgba(79, 110, 247, 0.2);
+}
+
+.calc-btn.calc-eq {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-color: var(--primary);
+}
+
+.calc-btn.calc-eq:hover {
+  box-shadow: 0 2px 8px rgba(79, 110, 247, 0.4);
+}
+
+.calc-btn.calc-clear {
+  background: rgba(234, 84, 85, 0.1);
+  color: var(--danger);
+  border-color: rgba(234, 84, 85, 0.25);
+}
+
+.calc-btn.calc-clear:hover {
+  background: rgba(234, 84, 85, 0.2);
+}
+
+.calc-btn.calc-apply {
+  background: rgba(40, 199, 111, 0.12);
+  color: var(--success);
+  border-color: rgba(40, 199, 111, 0.3);
+  grid-column: span 2;
+  font-size: 0.85rem;
+}
+
+.calc-btn.calc-apply:hover {
+  background: rgba(40, 199, 111, 0.2);
+}
+
+/* ============================================================
+   仕訳帳 アクションボタン
+   ============================================================ */
+.btn-action {
+  gap: 3px;
+  font-size: 0.78rem;
+  padding: 5px 8px;
+  min-width: auto;
+}
+
+.btn-action .btn-action-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================================
    パスワードロック画面
    ============================================================ */
 .lock-overlay {
@@ -1973,12 +2189,16 @@ select.form-control {
                 <div class="logo-icon">📊</div>
                 <div>
                     <h1 class="app-title">会計帳簿ソフト</h1>
-                    <p class="app-subtitle">2025年度 確定申告対応</p>
+                    <p class="app-subtitle">2026年度 確定申告対応</p>
                 </div>
             </div>
-            <div class="header-actions" style="display:flex; gap:8px;">
+            <div class="header-actions" style="display:flex; gap:8px; align-items: center;">
                 <button class="btn btn-outline" id="btnExportCSV">📥 CSV出力</button>
-                <button class="btn btn-primary" id="btnExportJSON">� バックアップ保存</button>
+                <div style="position: relative;">
+                    <button class="btn btn-secondary" id="btnTriggerImport">📂 バックアップ復元</button>
+                    <input type="file" id="inputFileJSON" accept=".json" style="display:none;">
+                </div>
+                <button class="btn btn-primary" id="btnExportJSON">💾 バックアップ保存</button>
             </div>
         </div>
     </header>
@@ -1992,6 +2212,7 @@ select.form-control {
         <button class="tab-btn" data-tab="investment">💹 投資収益</button>
         <button class="tab-btn" data-tab="salary">💰 給与計算</button>
         <button class="tab-btn" data-tab="furusato">🏡 ふるさと納税</button>
+        <button class="tab-btn" data-tab="trash">🗑 ゴミ箱</button>
         <button class="tab-btn" data-tab="settings">⚙️ 設定</button>
     </nav>
 
@@ -2021,19 +2242,44 @@ select.form-control {
                             </select>
                         </div>
 
-                        <!-- 補助科目 -->
-                        <div class="form-group">
-                            <label for="inputSubAccount">🔖 補助科目</label>
-                            <input type="text" id="inputSubAccount" class="form-control" placeholder="例：〇〇電気代">
-                        </div>
-
                         <!-- 金額（税込） -->
                         <div class="form-group">
                             <label for="inputAmount">💴 金額（税込） <span class="required">*</span></label>
-                            <div class="input-prefix-wrap">
-                                <span class="input-prefix">¥</span>
-                                <input type="number" id="inputAmount" class="form-control with-prefix" min="0"
-                                    placeholder="0" required>
+                            <div class="calc-popup-anchor">
+                                <div class="calc-input-wrap">
+                                    <span class="input-prefix">¥</span>
+                                    <input type="number" id="inputAmount" class="form-control with-prefix" min="0"
+                                        placeholder="0" required>
+                                    <button type="button" class="calc-toggle-btn" id="calcToggleBtn" title="電卓">🧮</button>
+                                </div>
+                                <!-- 簡易電卓ポップアップ -->
+                                <div class="calc-panel" id="calcPanel">
+                                    <div class="calc-display" id="calcDisplay">
+                                        <span class="calc-expression" id="calcExpression"></span>
+                                        <span id="calcValue">0</span>
+                                    </div>
+                                    <div class="calc-grid">
+                                        <button type="button" class="calc-btn" data-calc="7">7</button>
+                                        <button type="button" class="calc-btn" data-calc="8">8</button>
+                                        <button type="button" class="calc-btn" data-calc="9">9</button>
+                                        <button type="button" class="calc-btn calc-op" data-calc="÷">÷</button>
+                                        <button type="button" class="calc-btn" data-calc="4">4</button>
+                                        <button type="button" class="calc-btn" data-calc="5">5</button>
+                                        <button type="button" class="calc-btn" data-calc="6">6</button>
+                                        <button type="button" class="calc-btn calc-op" data-calc="×">×</button>
+                                        <button type="button" class="calc-btn" data-calc="1">1</button>
+                                        <button type="button" class="calc-btn" data-calc="2">2</button>
+                                        <button type="button" class="calc-btn" data-calc="3">3</button>
+                                        <button type="button" class="calc-btn calc-op" data-calc="−">−</button>
+                                        <button type="button" class="calc-btn" data-calc="0">0</button>
+                                        <button type="button" class="calc-btn" data-calc="00">00</button>
+                                        <button type="button" class="calc-btn" data-calc=".">.</button>
+                                        <button type="button" class="calc-btn calc-op" data-calc="+">+</button>
+                                        <button type="button" class="calc-btn calc-clear" data-calc="C">C</button>
+                                        <button type="button" class="calc-btn calc-eq" data-calc="=">=</button>
+                                        <button type="button" class="calc-btn calc-apply" id="calcApplyBtn">✓ 金額に反映</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -2056,18 +2302,17 @@ select.form-control {
                             </div>
                         </div>
 
-                        <!-- タグ -->
+                        <!-- メモ -->
+                        <div class="form-group form-group-memo">
+                            <label for="inputDesc">📝 メモ</label>
+                            <input type="text" id="inputDesc" class="form-control" placeholder="例：〇〇コンビニ、Amazon購入">
+                        </div>
+
                         <div class="form-group form-group-full">
                             <label>🏷️ タグ（複数選択可）</label>
                             <div id="formTagSelection" class="tag-selection-area">
                                 <!-- JSで動的に追加 -->
                             </div>
-                        </div>
-
-                        <!-- 摘要 -->
-                        <div class="form-group form-group-full">
-                            <label for="inputDesc">📝 摘要（支払先・内容）</label>
-                            <input type="text" id="inputDesc" class="form-control" placeholder="例：〇〇コンビニ、Amazon購入">
                         </div>
                     </div>
 
@@ -2100,7 +2345,7 @@ select.form-control {
                         <tr>
                             <th>日付</th>
                             <th>勘定科目</th>
-                            <th>摘要</th>
+                            <th>メモ</th>
                             <th>金額</th>
                             <th>支払方法</th>
                             <th>操作</th>
@@ -2138,6 +2383,7 @@ select.form-control {
                     <button class="btn btn-sm btn-outline" id="btnClearFilter">クリア</button>
                 </div>
             </div>
+            <div class="journal-total" id="journalTotal"></div>
             <div class="journal-table-wrap">
                 <table class="data-table journal-table" id="journalTable">
                     <thead>
@@ -2151,7 +2397,7 @@ select.form-control {
                             <th class="sortable" data-sort="credit" title="クリックで並び替え">貸方科目 <span
                                     class="sort-icon"></span></th>
                             <th>貸方金額</th>
-                            <th>摘要</th>
+                            <th>メモ</th>
                             <th>タグ</th>
                             <th>操作</th>
                         </tr>
@@ -2163,7 +2409,7 @@ select.form-control {
                     </tbody>
                 </table>
             </div>
-            <div class="journal-total" id="journalTotal"></div>
+
         </section>
 
         <!-- ========== 損益計算書タブ ========== -->
@@ -2619,6 +2865,7 @@ select.form-control {
 
             <div class="form-actions" style="margin-top:1.5rem;">
                 <button class="btn btn-secondary" id="btnResetSalary">クリア</button>
+                <button class="btn btn-outline" id="btnSaveSalary">💾 保存</button>
                 <button class="btn btn-primary" id="btnCalcSalary">💰 年収を計算</button>
             </div>
         </section>
@@ -2626,7 +2873,7 @@ select.form-control {
         <!-- ========== ふるさと納税シミュレーター ========== -->
         <section id="tab-furusato" class="tab-content">
             <div class="section-header">
-                <h2>🏡 ふるさと納税シミュレーター</h2>
+                <h2>🏡 ふるさと納税シミュレーター (2026年度/令和8年分)</h2>
                 <p class="section-desc">会社員＋副業（青色申告）向け ─ あなたの控除上限額を計算します。確定申告をする方（ワンストップ特例の利用なし）を想定しています。</p>
             </div>
 
@@ -2882,7 +3129,7 @@ select.form-control {
                     </div>
                     <div class="form-group">
                         <label>対象年度</label>
-                        <input type="number" id="settingYear" class="form-control" value="2025" min="2020" max="2030">
+                        <input type="number" id="settingYear" class="form-control" value="2026" min="2020" max="2030">
                     </div>
                 </div>
 
@@ -2961,25 +3208,14 @@ select.form-control {
             </div>
 
 
-            <!-- データの復元と初期化 -->
-            <div class="settings-card" style="margin-top:2.5rem; border: 2px solid var(--primary-light);">
-                <h3>� データの復元と初期化</h3>
+            <!-- データの初期化 -->
+            <div class="settings-card" style="margin-top:2.5rem; border: 1px solid var(--danger);">
+                <h3 style="color:var(--danger);">⚠️ 危険な操作</h3>
                 <p class="section-desc" style="margin-bottom:1rem;">
-                    ソフトのアップデート時や別のパソコンからデータを移す際に使用します。<br>※「復元」を行うと、現在のデータはすべて上書きされます。（バックアップは画面右上のボタンから可能です）</p>
-                <div class="import-export-actions"
-                    style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-end;">
-                    <div class="form-group" style="flex:1; min-width:200px;">
-                        <label>✅ バックアップから復元（インポート）</label>
-                        <input type="file" id="inputFileJSON" accept=".json" class="form-control"
-                            style="cursor:pointer;">
-                    </div>
-                    <div class="form-group" style="flex:1; min-width:200px;">
-                        <label style="color:#d32f2f;">⚠️ 危険な操作</label>
-                        <button class="btn btn-outline" id="btnClearAll"
-                            style="width:100%; color:#d32f2f; border-color:#d32f2f; font-weight:bold;">🗑
-                            アプリ内の全データを削除（初期化）</button>
-                    </div>
-                </div>
+                    現在のデータをすべて削除し、初期状態に戻します。<br>※この操作は取り消せません。実行前に必ずバックアップを保存してください。</p>
+                <button class="btn btn-outline" id="btnClearAll"
+                    style="width:100%; max-width: 300px; color:var(--danger); border-color:var(--danger); font-weight:bold;">🗑
+                    アプリ内の全データを削除（初期化）</button>
             </div>
 
             <!-- バージョン情報 -->
@@ -2988,27 +3224,23 @@ select.form-control {
                 <div class="version-info">
                     <div class="version-row">
                         <span class="version-label">ソフトウェア</span>
-                        <span class="version-value">会計帳簿ソフト v2.0.0</span>
+                        <span class="version-value">会計帳簿ソフト v2.1.0</span>
                     </div>
                     <div class="version-row">
                         <span class="version-label">対応税制年度</span>
-                        <span class="version-value">令和7年分（2025年分）</span>
+                        <span class="version-value">令和8年分（2026年分）</span>
                     </div>
                     <div class="version-row">
                         <span class="version-label">適用法令</span>
-                        <span class="version-value">所得税法（令和7年度適用）</span>
-                    </div>
-                    <div class="version-row">
-                        <span class="version-label">給与所得控除</span>
-                        <span class="version-value">令和2年分以降の速算表を適用</span>
+                        <span class="version-value">所得税法（令和8年度適用）</span>
                     </div>
                     <div class="version-row">
                         <span class="version-label">復興特別所得税</span>
-                        <span class="version-value">2.1%（〜令和19年分）</span>
+                        <span class="version-value">2.1%（～令和19年分）</span>
                     </div>
                     <div class="version-row">
                         <span class="version-label">最終更新</span>
-                        <span class="version-value">2026年3月</span>
+                        <span class="version-value">2026年4月（令和8年度対応版）</span>
                     </div>
                 </div>
                 <div class="version-disclaimer">
@@ -3018,14 +3250,41 @@ select.form-control {
             </div>
         </section>
 
+        <!-- ========== ゴミ箱タブ ========== -->
+        <section id="tab-trash" class="tab-content">
+            <div class="section-header">
+                <h2>🗑 ゴミ箱</h2>
+                <p class="section-desc">削除した仕訳は30日間ここに保管されます。期限内は復元可能です。</p>
+                <div class="filter-bar">
+                    <button class="btn btn-sm btn-outline" id="btnEmptyTrash" style="color:var(--danger); border-color:var(--danger);">🗑 ゴミ箱を空にする</button>
+                </div>
+            </div>
+            <div class="journal-table-wrap">
+                <table class="data-table" id="trashTable">
+                    <thead>
+                        <tr>
+                            <th>元の日付</th>
+                            <th>勘定科目</th>
+                            <th>金額</th>
+                            <th>メモ</th>
+                            <th>残り日数</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trashTableBody">
+                        <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--text-muted);">🗑 ゴミ箱は空です</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
     </main>
 
-    <!-- フッター -->
     <footer class="app-footer">
         <div class="footer-content">
-            <span>会計帳簿ソフト v2.0.0 ─ 令和7年（2025年）分 税制対応</span>
+            <span>会計帳簿ソフト v2.1.0 ― 令和8年（2026年）分 税制対応</span>
             <span class="footer-divider">|</span>
-            <span>所得税法・住民税法（令和7年度適用）準拠</span>
+            <span>所得税法・住民税法（令和8年度適用）準拠</span>
         </div>
     </footer>
 
@@ -3038,7 +3297,7 @@ select.form-control {
             <h3>📥 CSVデータの出力</h3>
             <p>出力したいデータを選択してください。</p>
             <div class="modal-actions" style="flex-direction: column; gap: 8px; margin-top:20px;">
-                <button class="btn btn-outline" id="btnExportJournalCSV"
+                <button class="btn btn-outline" id="btnExportJournalCSVModal"
                     style="width:100%; justify-content:flex-start;">📖 仕訳帳（全データ）</button>
                 <button class="btn btn-outline" id="btnExportPLCSVModal"
                     style="width:100%; justify-content:flex-start;">📈 損益計算書（P/L）</button>
@@ -3049,14 +3308,14 @@ select.form-control {
         </div>
     </div>
 
-    <!-- 削除確認モーダル -->
+    <!-- 確認モーダル -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h3 id="modalTitle">確認</h3>
             <p id="modalMessage"></p>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="modalCancel">キャンセル</button>
-                <button class="btn btn-danger" id="modalConfirm">削除する</button>
+                <button class="btn btn-danger" id="modalConfirm">実行する</button>
             </div>
         </div>
     </div>
@@ -3076,12 +3335,84 @@ select.form-control {
         </div>
     </div>
 
+    <!-- 編集専用モーダル -->
+    <div class="modal-overlay" id="editModalOverlay">
+        <div class="modal" style="max-width: 600px; width: 95%;">
+            <h3>🖊 仕訳の編集</h3>
+            <div id="editForm" class="form-grid" style="margin-top: 16px;">
+                <div class="form-group">
+                    <label>📅 日付</label>
+                    <input type="date" id="editEntryDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>📂 勘定科目</label>
+                    <select id="editEntryAccount" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label>💴 金額（税込）</label>
+                    <div class="input-prefix-wrap">
+                        <span class="input-prefix">¥</span>
+                        <input type="number" id="editEntryAmount" class="form-control with-prefix">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>💳 支払方法</label>
+                    <select id="editEntryPayment" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label>🏠 事業按分率（%）</label>
+                    <div class="input-suffix-wrap">
+                        <input type="number" id="editEntryRatio" class="form-control with-suffix" min="0" max="100">
+                        <span class="input-suffix">%</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>📝 メモ</label>
+                    <input type="text" id="editEntryDesc" class="form-control">
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>🏷️ タグ</label>
+                    <div id="editEntryTagSelection" class="tag-selection-area"></div>
+                </div>
+            </div>
+            <div id="editAmountPreview" class="amount-preview" style="margin: 16px 0;">
+                <div class="preview-item">
+                    <span class="preview-label">経費計上額（按分後）</span>
+                    <span class="preview-value" id="editPreviewExpense">¥0</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btnCancelEdit">キャンセル</button>
+                <button class="btn btn-primary" id="btnSaveEdit">内容を更新する ✓</button>
+            </div>
+        </div>
+    </div>
+
     <script>
 /* ============================================================
-   会計帳簿ソフト 2025 - アプリケーションロジック
+   会計帳簿ソフト 2026 - アプリケーションロジック
    ============================================================ */
 
 'use strict';
+
+// ============================================================
+// ストレージ管理
+// ============================================================
+const STORAGE_KEY = 'accounting_app_data_2026';
+
+function loadData() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+    } catch (e) {
+        return null;
+    }
+}
+
+function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
 
 // ============================================================
 // パスワード保護機能（固定パスワード方式）
@@ -3151,252 +3482,231 @@ function initLockScreen() {
     });
 }
 
-
 // ============================================================
-// デフォルトデータ
+// アプリ状態と初期データ
 // ============================================================
 const DEFAULT_EXPENSE_ACCOUNTS = [
-    '売上原価', '消耗品費', '旅費交通費', '通信費', '接待交際費',
-    '広告宣伝費', '地代家賃', '水道光熱費', '損害保険料',
-    '修繕費', '租税公課', '減価償却費', '外注費', '荷造運賃',
-    '新聞図書費', '福利厚生費', '給料賃金', '専従者給与',
-    '雑費'
+    '売上原価', '給料賃金', '外注費', '福利厚生費', '旅費交通費', '通信費',
+    '広告宣伝費', '接待交際費', '修繕費', '消耗品費', '減価償却費', '地代家賃',
+    '租税公課', '損害保険料', '利息割引料', '新聞図書費', '車両運搬費', '諸会費', '雑費'
 ];
-
-const DEFAULT_INCOME_ACCOUNTS = [
-    '売上高', '雑収入', '受取利息'
-];
-
+const DEFAULT_INCOME_ACCOUNTS = ['売上高', '雑収入'];
 const DEFAULT_PAYMENTS = [
-    { name: '現金', type: '現金' },
-    { name: '三菱UFJ銀行', type: '普通預金' },
-    { name: 'クレジットカード', type: '未払金' },
-    { name: 'PayPay', type: '電子マネー' }
+    { name: '現金', type: 'cash' },
+    { name: '普通預金', type: 'bank' },
+    { name: 'クレジットカード', type: 'credit' }
 ];
 
-// ============================================================
-// ストレージ管理
-// ============================================================
-const STORAGE_KEY = 'accounting_app_data_' + new Date().getFullYear();
+const BS_ASSET_ACCOUNTS = [
+    '現金', '普通預金', '当座預金', '定期預金', '受取手形', '売掛金', '有価証券', '棚卸資産', '前払金', '貸付金', '建物', '附属設備', '構築物', '車両運搬具', '工具器具備品', '土地', '権利金等', '繰延資産'
+];
 
-function loadData() {
-    try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
-    } catch (e) {
-        return null;
-    }
-}
+const BS_LIABILITY_ACCOUNTS = [
+    '支払手形', '買掛金', '借入金', '未払金', '預り金', '前受金', '貸倒引当金', 'その他の負債', '事業主借', '元入金', '今期青色申告特別控除前所得'
+];
 
-function saveData(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-// アプリ状態
 let state = {
-    entries: [],           // 仕訳エントリ
+    entries: [],
+    trash: [],     // ゴミ箱（30日保持）
     settings: {
         name: '',
         type: 'blue',
-        year: new Date().getFullYear(),
+        year: 2026,
         expenseAccounts: [...DEFAULT_EXPENSE_ACCOUNTS],
         incomeAccounts: [...DEFAULT_INCOME_ACCOUNTS],
         payments: [...DEFAULT_PAYMENTS],
         tags: ['#動画編集', '#不動産'],
-        incomeCounterAccount: '事業主貸',   // 売上の相手方勘定科目
-        expenseCounterAccount: '事業主借'   // 経費の相手方勘定科目
+        incomeCounterAccount: '事業主貸',
+        expenseCounterAccount: '事業主借'
     },
-    bs: {},                // 貸借対照表データ { year: { asset: {...}, liability: {...} } }
-    investment: {}          // 投資データ
+    bs: {},        // B/Sデータ
+    investment: {}, // 投資収支データ
+    salary: {}     // 給与データ
 };
 
 let editingEntryId = null;
 let editOriginTab = null;
+let journalFilter = { month: '', account: '', tag: '' };
+let journalSort = { key: 'date', order: 'desc' };
+let pendingConfirmCallback = null;
 let repeatTargetId = null;
-
-function initState() {
-    const saved = loadData();
-    if (saved) {
-        state.entries = saved.entries || [];
-        state.settings = {
-            ...state.settings,
-            ...saved.settings,
-            expenseAccounts: saved.settings?.expenseAccounts || [...DEFAULT_EXPENSE_ACCOUNTS],
-            incomeAccounts: saved.settings?.incomeAccounts || [...DEFAULT_INCOME_ACCOUNTS],
-            payments: saved.settings?.payments || [...DEFAULT_PAYMENTS],
-            tags: saved.settings?.tags || ['#動画編集', '#不動産'],
-            incomeCounterAccount: saved.settings?.incomeCounterAccount ?? '事業主貸',
-            expenseCounterAccount: saved.settings?.expenseCounterAccount ?? '事業主借',
-            plYear: saved.settings?.plYear || null,
-            bsYear: saved.settings?.bsYear || null
-        };
-        state.bs = saved.bs || {};
-        state.investment = saved.investment || {};
-    }
-}
 
 function persist() {
     saveData(state);
 }
 
+function initState() {
+    const saved = loadData();
+    if (saved) {
+        state = { ...state, ...saved };
+        if (!state.settings) state.settings = { year: 2026 };
+        if (!state.bs) state.bs = {};
+        if (!state.investment) state.investment = {};
+        if (!state.salary) state.salary = {};
+        if (!state.trash) state.trash = [];
+    }
+    // 30日以上前のゴミ箱アイテムを自動削除
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    state.trash = state.trash.filter(e => e.deletedAt >= thirtyDaysAgo);
+}
+
 // ============================================================
-// ユーティリティ
+// ヘルパー・ユーティリティ
 // ============================================================
-function formatYen(n) {
-    if (isNaN(n) || n === null || n === undefined) return '¥0';
-    return '¥' + Math.round(n).toLocaleString('ja-JP');
+function generateId() {
+    return 'entry_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+}
+
+function formatYen(num) {
+    if (num === null || isNaN(num)) return '¥0';
+    return '¥' + Math.floor(num).toLocaleString();
 }
 
 function formatDate(dateStr) {
     if (!dateStr) return '';
-    const d = new Date(dateStr);
-    return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    return dateStr.replace(/-/g, '/');
+}
+
+function escHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 function today() {
-    return new Date().toISOString().split('T')[0];
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
-
-function calcAmount(amount, ratio) {
-    const ratioFactor = ratio / 100;
-    const totalAfterRatio = Math.round(amount * ratioFactor);
-    return { totalAfterRatio };
-}
-
-function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-}
-
-function getPaymentCreditAccount(paymentName) {
-    const p = state.settings.payments.find(x => x.name === paymentName);
-    if (!p) return '現金';
-    const typeMap = {
-        '現金': '現金',
-        '普通預金': '普通預金',
-        '未払金': '未払金',
-        '電子マネー': '未払金'
-    };
-    return typeMap[p.type] || '現金';
-}
-
-function isIncomeAccount(account) {
-    return state.settings.incomeAccounts.includes(account);
-}
-
-// ============================================================
-// トースト通知
-// ============================================================
-let toastTimer = null;
 
 function showToast(msg, type = 'success') {
-    const toast = document.getElementById('toast');
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
     toast.textContent = msg;
-    toast.className = `toast ${type} show`;
-    if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }, 10);
 }
 
-// ============================================================
-// モーダル
-// ============================================================
-let pendingConfirmCallback = null;
-
 function showModal(title, message, onConfirm) {
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalMessage').textContent = message;
-    pendingConfirmCallback = onConfirm;
-    document.getElementById('modalOverlay').classList.add('open');
+    const elTitle = document.getElementById('modalTitle');
+    const elMsg = document.getElementById('modalMessage');
+    const elOverlay = document.getElementById('modalOverlay');
+    if (elTitle && elMsg && elOverlay) {
+        elTitle.textContent = title;
+        elMsg.textContent = message;
+        elOverlay.classList.add('open');
+        pendingConfirmCallback = onConfirm;
+    }
 }
 
 function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('modalOverlay')?.classList.remove('open');
     pendingConfirmCallback = null;
 }
 
+function isIncomeAccount(accName) {
+    return state.settings.incomeAccounts.includes(accName);
+}
+
+function calcAmount(amount, ratio) {
+    const raw = parseFloat(amount) || 0;
+    const r = (parseFloat(ratio) || 100) / 100;
+    const after = Math.floor(raw * r);
+    return { raw, after };
+}
+
+function updateAmountPreview() {
+    const elAmt = document.getElementById('inputAmount');
+    const elRatio = document.getElementById('inputRatio');
+    const elPrev = document.getElementById('previewExpense');
+    if (elAmt && elRatio && elPrev) {
+        const amt = parseFloat(elAmt.value) || 0;
+        const ratio = parseFloat(elRatio.value) || 100;
+        const { after } = calcAmount(amt, ratio);
+        elPrev.textContent = formatYen(after);
+    }
+}
+
 // ============================================================
-// セレクト・UIの更新
+// UI初期化・セレクトボックス
 // ============================================================
 function populateAccountSelects() {
-    const all = [...state.settings.incomeAccounts, ...state.settings.expenseAccounts];
-    const sets = [
-        { id: 'inputAccount', includeBlank: true },
-        { id: 'filterAccount', includeBlank: false }
-    ];
-    sets.forEach(({ id, includeBlank }) => {
-        const sel = document.getElementById(id);
-        if (!sel) return;
-        const prev = sel.value;
-        sel.innerHTML = '';
-        if (includeBlank) {
-            const opt = document.createElement('option');
-            opt.value = '';
-            opt.textContent = '-- 選択してください --';
-            sel.appendChild(opt);
+    const expenseSel = document.getElementById('inputAccount');
+    const filterAcc = document.getElementById('filterAccount');
+    if (expenseSel) {
+        expenseSel.innerHTML = '<option value="" disabled selected>選択してください</option>';
+        // 最近使った科目を集計（上位5件）
+        const usedCount = {};
+        state.entries.forEach(e => { usedCount[e.account] = (usedCount[e.account] || 0) + 1; });
+        const allAccounts = [...state.settings.expenseAccounts, ...state.settings.incomeAccounts];
+        const recentAccounts = allAccounts
+            .filter(a => usedCount[a])
+            .sort((a, b) => (usedCount[b] || 0) - (usedCount[a] || 0))
+            .slice(0, 5);
+        if (recentAccounts.length > 0) {
+            const groupRecent = document.createElement('optgroup');
+            groupRecent.label = '▶ よく使う科目';
+            recentAccounts.forEach(acc => {
+                const opt = document.createElement('option');
+                opt.value = acc;
+                opt.textContent = acc + (isIncomeAccount(acc) ? ' (収入)' : '');
+                groupRecent.appendChild(opt);
+            });
+            expenseSel.appendChild(groupRecent);
+            const groupAll = document.createElement('optgroup');
+            groupAll.label = '─ すべての科目';
+            allAccounts.sort().forEach(acc => {
+                const opt = document.createElement('option');
+                opt.value = acc;
+                opt.textContent = acc + (isIncomeAccount(acc) ? ' (収入)' : '');
+                groupAll.appendChild(opt);
+            });
+            expenseSel.appendChild(groupAll);
         } else {
-            const opt = document.createElement('option');
-            opt.value = '';
-            opt.textContent = 'すべて';
-            sel.appendChild(opt);
+            allAccounts.sort().forEach(acc => {
+                const opt = document.createElement('option');
+                opt.value = acc;
+                opt.textContent = acc + (isIncomeAccount(acc) ? ' (収入)' : '');
+                expenseSel.appendChild(opt);
+            });
         }
-        // 収入科目グループ
-        const igr = document.createElement('optgroup');
-        igr.label = '収入科目';
-        state.settings.incomeAccounts.forEach(a => {
-            const o = document.createElement('option');
-            o.value = a;
-            o.textContent = a;
-            igr.appendChild(o);
+    }
+    if (filterAcc) {
+        filterAcc.innerHTML = '<option value="">すべて表示</option>';
+        [...state.settings.expenseAccounts, ...state.settings.incomeAccounts].sort().forEach(acc => {
+            const opt = document.createElement('option');
+            opt.value = acc;
+            opt.textContent = acc;
+            filterAcc.appendChild(opt);
         });
-        sel.appendChild(igr);
-        // 経費科目グループ
-        const egr = document.createElement('optgroup');
-        egr.label = '経費科目';
-        state.settings.expenseAccounts.forEach(a => {
-            const o = document.createElement('option');
-            o.value = a;
-            o.textContent = a;
-            egr.appendChild(o);
-        });
-        sel.appendChild(egr);
-        sel.value = prev;
-    });
+    }
 }
 
 function populateTagSelects() {
-    // フィルター用プルダウン
-    const selFilter = document.getElementById('filterTag');
-    if (selFilter) {
-        const prev = selFilter.value;
-        selFilter.innerHTML = '<option value="">すべて</option>';
-        state.settings.tags.forEach(t => {
-            const o = document.createElement('option');
-            o.value = t;
-            o.textContent = t;
-            selFilter.appendChild(o);
+    const container = document.getElementById('formTagSelection');
+    const filterTag = document.getElementById('filterTag');
+    if (container) {
+        container.innerHTML = '';
+        state.settings.tags.forEach(tag => {
+            const div = document.createElement('div');
+            div.className = 'tag-checkbox';
+            div.innerHTML = `<label><input type="checkbox" value="${escHtml(tag)}"><span>${escHtml(tag)}</span></label>`;
+            container.appendChild(div);
         });
-        selFilter.value = prev;
     }
-
-    // フォームのチェックボックス
-    const tagContainer = document.getElementById('formTagSelection');
-    if (tagContainer) {
-        const checked = Array.from(tagContainer.querySelectorAll('input:checked')).map(cb => cb.value);
-        tagContainer.innerHTML = '';
-        state.settings.tags.forEach(t => {
-            const lbl = document.createElement('label');
-            lbl.className = 'tag-checkbox';
-            const cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.value = t;
-            if (checked.includes(t)) cb.checked = true;
-            const span = document.createElement('span');
-            span.textContent = t;
-            lbl.appendChild(cb);
-            lbl.appendChild(span);
-            tagContainer.appendChild(lbl);
+    if (filterTag) {
+        filterTag.innerHTML = '<option value="">すべて表示</option>';
+        state.settings.tags.forEach(tag => {
+            const opt = document.createElement('option');
+            opt.value = tag;
+            opt.textContent = tag;
+            filterTag.appendChild(opt);
         });
     }
 }
@@ -3404,707 +3714,549 @@ function populateTagSelects() {
 function populatePaymentSelect() {
     const sel = document.getElementById('inputPayment');
     if (!sel) return;
-    const prev = sel.value;
-    sel.innerHTML = '<option value="">-- 選択してください --</option>';
+    sel.innerHTML = '<option value="" disabled selected>選択してください</option>';
     state.settings.payments.forEach(p => {
-        const o = document.createElement('option');
-        o.value = p.name;
-        o.textContent = `${p.name}（${p.type}）`;
-        sel.appendChild(o);
+        const opt = document.createElement('option');
+        opt.value = p.name;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
     });
-    sel.value = prev;
 }
 
 function populatePLYears() {
-    const sel = document.getElementById('plYear');
-    if (!sel) return;
-    sel.innerHTML = '';
-    const targetYear = state.settings.plYear || state.settings.year;
-    for (let y = 2025; y <= 2030; y++) {
+    const plYearSel = document.getElementById('plYear');
+    if (!plYearSel) return;
+    plYearSel.innerHTML = '';
+    const current = 2026;
+    for (let y = current - 1; y <= current + 4; y++) {
         const o = document.createElement('option');
         o.value = y;
         o.textContent = `${y}年`;
-        if (y === targetYear) o.selected = true;
+        if (y === current) o.selected = true;
+        plYearSel.appendChild(o);
+    }
+}
+
+function populateBSYears() {
+    const sel = document.getElementById('bsYear');
+    if (!sel) return;
+    sel.innerHTML = '';
+    const current = 2026;
+    for (let y = current - 1; y <= current + 4; y++) {
+        const o = document.createElement('option');
+        o.value = y;
+        o.textContent = `${y}年`;
+        if (y === current) o.selected = true;
         sel.appendChild(o);
     }
 }
 
 // ============================================================
-// 金額プレビュー更新
-// ============================================================
-function updateAmountPreview() {
-    const amount = parseFloat(document.getElementById('inputAmount').value) || 0;
-    const ratio = parseFloat(document.getElementById('inputRatio').value) || 100;
-
-    const { totalAfterRatio } = calcAmount(amount, ratio);
-
-    document.getElementById('previewExpense').textContent = formatYen(totalAfterRatio);
-}
-
-// ============================================================
-// 最近の入力テーブル（入力タブ）
+// 最近の入力履歴表示
 // ============================================================
 function renderRecentTable() {
     const tbody = document.getElementById('recentTableBody');
-    const recent = [...state.entries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 10);
-
+    if (!tbody) return;
+    const recent = [...state.entries].sort((a, b) => b.createdAt - a.createdAt).slice(0, 10);
     if (recent.length === 0) {
-        tbody.innerHTML = '<tr class="empty-row"><td colspan="6">まだデータがありません</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">まだ入力履歴がありません</td></tr>';
         return;
     }
+    tbody.innerHTML = recent.map(e => `
+        <tr>
+            <td>${formatDate(e.date)}</td>
+            <td><span class="account-badge ${isIncomeAccount(e.account) ? 'income' : ''}">${escHtml(e.account)}</span></td>
+            <td>${escHtml(e.description || '')}</td>
+            <td class="amount-cell">${formatYen(e.amount)}</td>
+            <td>${escHtml(e.paymentMethod)}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn-action btn-copy" title="複製" data-id="${e.id}">📎</button>
+                    <button class="btn-action btn-delete-icon" title="削除" data-id="${e.id}">🗑</button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
 
-    tbody.innerHTML = recent.map(e => {
-        const isIncome = isIncomeAccount(e.account);
-        return `
-      <tr>
-        <td>${formatDate(e.date)}</td>
-        <td><span class="account-badge ${isIncome ? 'income' : ''}">${escHtml(e.account)}</span></td>
-        <td>${escHtml(e.description || '')}</td>
-        <td class="amount-cell">${formatYen(e.totalAfterRatio)}</td>
-        <td>${escHtml(e.paymentMethod || '')}</td>
-        <td><button class="btn-delete" data-id="${e.id}">削除</button></td>
-      </tr>
-    `;
-    }).join('');
-
-    tbody.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.addEventListener('click', () => confirmDeleteEntry(btn.dataset.id));
+    tbody.querySelectorAll('.btn-copy').forEach(btn => {
+        btn.addEventListener('click', () => duplicateEntry(btn.dataset.id));
+    });
+    tbody.querySelectorAll('.btn-delete-icon').forEach(btn => {
+        btn.addEventListener('click', () => moveToTrash(btn.dataset.id));
     });
 }
 
-function escHtml(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+// ============================================================
+// 仕訳帳テーブル表示
+// ============================================================
+function updateSortIcons() {
+    document.querySelectorAll('.journal-table th.sortable').forEach(th => {
+        const icon = th.querySelector('.sort-icon');
+        if (!icon) return;
+        if (th.dataset.sort === journalSort.key) {
+            icon.textContent = journalSort.order === 'asc' ? ' ▲' : ' ▼';
+            icon.classList.add('active');
+        } else {
+            icon.textContent = ' ↕';
+            icon.classList.remove('active');
+        }
+    });
 }
-
-// ============================================================
-// 仕訳帳テーブル
-// ============================================================
-let journalFilter = { month: '', account: '', tag: '' };
-let journalSort = { key: 'date', order: 'asc' };
 
 function renderJournalTable() {
     const tbody = document.getElementById('journalTableBody');
+    if (!tbody) return;
+
     let entries = [...state.entries];
 
-    // フィルター
-    if (journalFilter.month) {
-        entries = entries.filter(e => e.date.startsWith(journalFilter.month));
-    }
-    if (journalFilter.account) {
-        entries = entries.filter(e => e.account === journalFilter.account);
-    }
-    if (journalFilter.tag) {
-        entries = entries.filter(e => e.tag && e.tag.includes(journalFilter.tag));
-    }
+    if (journalFilter.month) entries = entries.filter(e => e.date.startsWith(journalFilter.month));
+    if (journalFilter.account) entries = entries.filter(e => e.account === journalFilter.account);
+    if (journalFilter.tag) entries = entries.filter(e => e.tag && e.tag.includes(journalFilter.tag));
 
-    // ソート
     entries.sort((a, b) => {
-        let valA, valB;
-        if (journalSort.key === 'date') {
-            valA = a.date; valB = b.date;
-        } else if (journalSort.key === 'amount') {
-            valA = a.totalAfterRatio; valB = b.totalAfterRatio;
-        } else if (journalSort.key === 'debit') {
-            const isIncA = isIncomeAccount(a.account);
-            valA = isIncA ? (state.settings.incomeCounterAccount || '事業主貸') : a.account;
-            const isIncB = isIncomeAccount(b.account);
-            valB = isIncB ? (state.settings.incomeCounterAccount || '事業主貸') : b.account;
-        } else if (journalSort.key === 'credit') {
-            const isIncA = isIncomeAccount(a.account);
-            valA = isIncA ? a.account : (state.settings.expenseCounterAccount || '事業主借');
-            const isIncB = isIncomeAccount(b.account);
-            valB = isIncB ? b.account : (state.settings.expenseCounterAccount || '事業主借');
+        let valA = a[journalSort.key], valB = b[journalSort.key];
+        if (journalSort.key === 'amount' || journalSort.key === 'totalAfterRatio') {
+            valA = parseFloat(valA); valB = parseFloat(valB);
         }
-
         if (valA < valB) return journalSort.order === 'asc' ? -1 : 1;
         if (valA > valB) return journalSort.order === 'asc' ? 1 : -1;
-        return a.date.localeCompare(b.date);
+        return 0;
     });
 
     if (entries.length === 0) {
-        tbody.innerHTML = '<tr class="empty-row"><td colspan="8">データがありません</td></tr>';
-        document.getElementById('journalTotal').textContent = '';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 40px; color:var(--text-muted);">データが見つかりませんでした</td></tr>';
+        document.getElementById('journalTotal').innerHTML = '';
         return;
     }
 
-    const totalDebit = entries.reduce((s, e) => s + e.totalAfterRatio, 0);
+    const incomeTotal = entries.filter(e => isIncomeAccount(e.account)).reduce((s, e) => s + e.totalAfterRatio, 0);
+    const expenseTotal = entries.filter(e => !isIncomeAccount(e.account)).reduce((s, e) => s + e.totalAfterRatio, 0);
+    const netTotal = incomeTotal - expenseTotal;
 
     tbody.innerHTML = entries.map(e => {
         const isIncome = isIncomeAccount(e.account);
-        let debitAcc, creditAcc, debitAmt, creditAmt;
-
-        if (isIncome) {
-            // 売上：売上科目 貸方、相手方（事業主貸等） 借方
-            debitAcc = state.settings.incomeCounterAccount || '事業主貸';
-            creditAcc = e.account;
-        } else {
-            // 経費：経費科目 借方、相手方（事業主借等） 貸方
-            debitAcc = e.account;
-            creditAcc = state.settings.expenseCounterAccount || '事業主借';
-        }
-        debitAmt = e.totalAfterRatio;
-        creditAmt = e.totalAfterRatio;
-
+        const debitAcc = isIncome ? (state.settings.incomeCounterAccount || '事業主貸') : e.account;
+        const creditAcc = isIncome ? e.account : (state.settings.expenseCounterAccount || '事業主借');
         return `
       <tr>
         <td>${formatDate(e.date)}</td>
-        <td><span class="account-badge ${isIncome ? '' : ''}">${escHtml(debitAcc)}</span></td>
-        <td class="amount-cell">${formatYen(debitAmt)}</td>
+        <td><span class="account-badge">${escHtml(debitAcc)}</span></td>
+        <td class="amount-cell">${formatYen(e.totalAfterRatio)}</td>
         <td><span class="account-badge ${isIncome ? 'income' : ''}">${escHtml(creditAcc)}</span></td>
-        <td class="amount-cell">${formatYen(creditAmt)}</td>
+        <td class="amount-cell">${formatYen(e.totalAfterRatio)}</td>
         <td>${escHtml(e.description || '')}</td>
         <td><span class="tag">${escHtml(e.tag || '')}</span></td>
         <td>
            <div class="action-buttons">
-             <button class="btn-action btn-edit" title="編集" data-id="${e.id}">✏️</button>
-             <button class="btn-action btn-copy" title="複製" data-id="${e.id}">📄</button>
+             <button class="btn-action btn-edit" title="編集" data-id="${e.id}"><span class="btn-action-label">編集</span></button>
+             <button class="btn-action btn-copy" title="複製" data-id="${e.id}"><span class="btn-action-label">複製</span></button>
              <button class="btn-action btn-copy-12" title="12ヶ月複製" data-id="${e.id}">🔁</button>
-             <button class="btn-action btn-delete-icon" title="削除" data-id="${e.id}">🗑</button>
+             <button class="btn-action btn-delete-icon" title="ゴミ箱へ" data-id="${e.id}">🗑</button>
            </div>
         </td>
       </tr>
     `;
     }).join('');
 
-    document.getElementById('journalTotal').textContent =
-        `表示件数: ${entries.length}件　合計金額: ${formatYen(totalDebit)}`;
+    // 合計バー（タグフィルタ時は小計ラベルを変える）
+    const filterLabel = journalFilter.tag ? `「${journalFilter.tag}」フィルタ中` : (journalFilter.account ? `「${journalFilter.account}」フィルタ中` : '');
+    const netClass = netTotal >= 0 ? 'color:#4caf50' : 'color:#ef5350';
+    document.getElementById('journalTotal').innerHTML = `
+        <div class="journal-totals-bar">
+            <span class="jtotal-item">📊 ${filterLabel || '全件'}: <strong>${entries.length}件</strong></span>
+            <span class="jtotal-sep">|</span>
+            <span class="jtotal-item">📈 収入: <strong style="color:#4caf50">${formatYen(incomeTotal)}</strong></span>
+            <span class="jtotal-sep">|</span>
+            <span class="jtotal-item">📉 経費: <strong style="color:#ef5350">${formatYen(expenseTotal)}</strong></span>
+            <span class="jtotal-sep">|</span>
+            <span class="jtotal-item">💰 差引: <strong style="${netClass}">${formatYen(netTotal)}</strong></span>
+        </div>`;
 
-    tbody.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', () => editEntry(btn.dataset.id));
-    });
-    tbody.querySelectorAll('.btn-copy').forEach(btn => {
-        btn.addEventListener('click', () => duplicateEntry(btn.dataset.id));
-    });
-    tbody.querySelectorAll('.btn-copy-12').forEach(btn => {
-        btn.addEventListener('click', () => promptRepeatEntry(btn.dataset.id));
-    });
-    tbody.querySelectorAll('.btn-delete-icon').forEach(btn => {
-        btn.addEventListener('click', () => confirmDeleteEntry(btn.dataset.id));
-    });
+    tbody.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', () => editEntry(btn.dataset.id)));
+    tbody.querySelectorAll('.btn-copy').forEach(btn => btn.addEventListener('click', () => duplicateEntry(btn.dataset.id)));
+    tbody.querySelectorAll('.btn-copy-12').forEach(btn => btn.addEventListener('click', () => promptRepeatEntry(btn.dataset.id)));
+    tbody.querySelectorAll('.btn-delete-icon').forEach(btn => btn.addEventListener('click', () => moveToTrash(btn.dataset.id)));
 }
 
 // ============================================================
-// 操作アクション（編集・複製）
+// 操作アクション
 // ============================================================
 function editEntry(id) {
     const entry = state.entries.find(e => e.id === id);
     if (!entry) return;
-
     editingEntryId = id;
-    const activeTabObj = document.querySelector('.tab-btn.active');
-    editOriginTab = activeTabObj ? activeTabObj.dataset.tab : 'journal';
-
-    document.getElementById('inputDate').value = entry.date;
-    document.getElementById('inputAccount').value = entry.account;
-    document.getElementById('inputSubAccount').value = entry.subAccount || '';
-    document.getElementById('inputAmount').value = entry.amount;
-    document.getElementById('inputPayment').value = entry.paymentMethod;
-    document.getElementById('inputRatio').value = entry.ratio || 100;
-    document.getElementById('inputDesc').value = entry.description || '';
-
+    
+    // モーダル内のセレクトボックスを最新の状態に更新
+    const accSel = document.getElementById('editEntryAccount');
+    accSel.innerHTML = document.getElementById('inputAccount').innerHTML;
+    const paySel = document.getElementById('editEntryPayment');
+    paySel.innerHTML = document.getElementById('inputPayment').innerHTML;
+    
+    document.getElementById('editEntryDate').value = entry.date;
+    accSel.value = entry.account;
+    document.getElementById('editEntryAmount').value = entry.amount;
+    paySel.value = entry.paymentMethod;
+    document.getElementById('editEntryRatio').value = entry.ratio || 100;
+    document.getElementById('editEntryDesc').value = entry.description || '';
+    
+    // タグ選択の生成
+    const tagSource = document.getElementById('formTagSelection');
+    const tagDest = document.getElementById('editEntryTagSelection');
+    tagDest.innerHTML = tagSource.innerHTML;
     const tags = entry.tag ? entry.tag.split(' ') : [];
-    document.querySelectorAll('#formTagSelection input[type="checkbox"]').forEach(cb => {
-        cb.checked = tags.includes(cb.value);
-    });
+    tagDest.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = tags.includes(cb.value));
+    
+    updateEditAmountPreview();
+    document.getElementById('editModalOverlay').classList.add('open');
+}
 
-    updateAmountPreview();
+function updateEditAmountPreview() {
+    const amt = parseFloat(document.getElementById('editEntryAmount').value) || 0;
+    const ratio = parseFloat(document.getElementById('editEntryRatio').value) || 100;
+    const { after } = calcAmount(amt, ratio);
+    document.getElementById('editPreviewExpense').textContent = formatYen(after);
+}
 
-    // 更新ボタンにテキスト変更
-    const submitBtn = document.querySelector('#receiptForm button[type="submit"]');
-    submitBtn.innerHTML = '更新する ✓';
+function saveEditEntry() {
+    const entryIdx = state.entries.findIndex(e => e.id === editingEntryId);
+    if (entryIdx === -1) return;
 
-    // 入力タブに切り替え
-    document.querySelector('.tab-btn[data-tab="input"]').click();
+    const tagCbs = document.querySelectorAll('#editEntryTagSelection input[type="checkbox"]:checked');
+    const tags = Array.from(tagCbs).map(cb => cb.value).join(' ');
+    const amt = parseFloat(document.getElementById('editEntryAmount').value) || 0;
+    const r = parseFloat(document.getElementById('editEntryRatio').value) || 100;
+    const { after } = calcAmount(amt, r);
 
-    showToast('編集モードになりました。内容を変更して「更新する」を押してください。', 'success');
+    const updatedData = {
+        date: document.getElementById('editEntryDate').value,
+        account: document.getElementById('editEntryAccount').value,
+        amount: amt,
+        paymentMethod: document.getElementById('editEntryPayment').value,
+        ratio: r,
+        totalAfterRatio: after,
+        tag: tags,
+        description: document.getElementById('editEntryDesc').value
+    };
+
+    if (!updatedData.account || isNaN(updatedData.amount) || !updatedData.paymentMethod) {
+        showToast('未入力の項目があります', 'error'); return;
+    }
+
+    state.entries[entryIdx] = { ...state.entries[entryIdx], ...updatedData };
+    persist();
+    renderRecentTable(); renderJournalTable(); renderPL();
+    showToast('仕訳を更新しました ✓', 'success');
+    closeEditModal();
+}
+
+function closeEditModal() {
+    document.getElementById('editModalOverlay').classList.remove('open');
+    editingEntryId = null;
 }
 
 function clearEditMode() {
     editingEntryId = null;
-    document.querySelector('#receiptForm button[type="submit"]').innerHTML = '仕訳帳に登録 →';
+    const btn = document.querySelector('#receiptForm button[type="submit"]');
+    if (btn) btn.innerHTML = '仕訳帳に登録 →';
 }
 
 function duplicateEntry(id) {
     const org = state.entries.find(e => e.id === id);
     if (!org) return;
-    const copy = { ...org, id: generateId(), createdAt: Date.now() };
-    state.entries.push(copy);
-    persist();
-    renderRecentTable();
-    renderJournalTable();
-    renderPL();
+    state.entries.push({ ...org, id: generateId(), createdAt: Date.now() });
+    persist(); renderRecentTable(); renderJournalTable(); renderPL();
     showToast('複製しました ✓', 'success');
 }
 
 function promptRepeatEntry(id) {
-    const org = state.entries.find(e => e.id === id);
-    if (!org) return;
     repeatTargetId = id;
-    document.getElementById('repeatStartDate').value = org.date;
+    document.getElementById('repeatStartDate').value = state.entries.find(e => e.id === id).date;
     document.getElementById('repeatModalOverlay').classList.add('open');
 }
 
 function executeRepeat() {
-    if (!repeatTargetId) return;
     const org = state.entries.find(e => e.id === repeatTargetId);
-    if (!org) return;
-
     const startDateStr = document.getElementById('repeatStartDate').value;
-    if (!startDateStr) {
-        showToast('日付を選択してください', 'error');
-        return;
-    }
-
+    if (!org || !startDateStr) return;
     const [yy, mm, dd] = startDateStr.split('-').map(Number);
-
     for (let i = 0; i < 12; i++) {
         let date = new Date(yy, mm - 1 + i, dd);
-        if (date.getDate() !== dd) { //月末などでの繰り上がり防止
-            date = new Date(yy, mm - 1 + i + 1, 0);
-        }
-        let yyyy = date.getFullYear();
-        let mtd = String(date.getMonth() + 1).padStart(2, '0');
-        let dtd = String(date.getDate()).padStart(2, '0');
-        let newDate = `${yyyy}-${mtd}-${dtd}`;
-
-        state.entries.push({
-            ...org,
-            id: generateId(),
-            date: newDate,
-            createdAt: Date.now()
-        });
+        if (date.getDate() !== dd) date = new Date(yy, mm - 1 + i + 1, 0);
+        state.entries.push({ ...org, id: generateId(), date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`, createdAt: Date.now() });
     }
-
-    persist();
-    renderRecentTable();
-    renderJournalTable();
-    renderPL();
+    persist(); renderRecentTable(); renderJournalTable(); renderPL();
     showToast('12ヶ月分の仕訳を作成しました ✓', 'success');
-
     document.getElementById('repeatModalOverlay').classList.remove('open');
-    repeatTargetId = null;
 }
 
 // ============================================================
-// 損益計算書（P/L）
+// 損益計算書・B/S・投資・給与
 // ============================================================
 function renderPL() {
     const year = parseInt(document.getElementById('plYear')?.value) || state.settings.year;
-
     const entries = state.entries.filter(e => e.date.startsWith(String(year)));
-
-    // 収入集計
-    const incomeMap = {};
-    state.settings.incomeAccounts.forEach(a => { incomeMap[a] = 0; });
-    entries.filter(e => isIncomeAccount(e.account))
-        .forEach(e => { incomeMap[e.account] = (incomeMap[e.account] || 0) + e.totalAfterRatio; });
-
-    // 経費集計
-    const expenseMap = {};
-    state.settings.expenseAccounts.forEach(a => { expenseMap[a] = 0; });
-    entries.filter(e => !isIncomeAccount(e.account))
-        .forEach(e => { expenseMap[e.account] = (expenseMap[e.account] || 0) + e.totalAfterRatio; });
-
+    const incomeMap = {}, expenseMap = {};
+    state.settings.incomeAccounts.forEach(a => incomeMap[a] = 0);
+    state.settings.expenseAccounts.forEach(a => expenseMap[a] = 0);
+    entries.forEach(e => {
+        if (isIncomeAccount(e.account)) incomeMap[e.account] = (incomeMap[e.account] || 0) + e.totalAfterRatio;
+        else expenseMap[e.account] = (expenseMap[e.account] || 0) + e.totalAfterRatio;
+    });
     const incomeTotal = Object.values(incomeMap).reduce((s, v) => s + v, 0);
     const expenseTotal = Object.values(expenseMap).reduce((s, v) => s + v, 0);
-    const net = incomeTotal - expenseTotal;
-
-    // 収入リスト
-    const plIncomeList = document.getElementById('plIncomeList');
-    const incomeRows = Object.entries(incomeMap).filter(([, v]) => v > 0);
-    if (incomeRows.length === 0) {
-        plIncomeList.innerHTML = '<div class="pl-row" style="color:var(--text-muted);font-style:italic">データなし</div>';
-    } else {
-        plIncomeList.innerHTML = incomeRows.map(([k, v]) =>
-            `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`
-        ).join('');
-    }
-
-    // 経費リスト（金額のある科目のみ）
-    const plExpenseList = document.getElementById('plExpenseList');
-    const expenseRows = Object.entries(expenseMap).filter(([, v]) => v > 0);
-    if (expenseRows.length === 0) {
-        plExpenseList.innerHTML = '<div class="pl-row" style="color:var(--text-muted);font-style:italic">データなし</div>';
-    } else {
-        plExpenseList.innerHTML = expenseRows.map(([k, v]) =>
-            `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`
-        ).join('');
-    }
-
+    document.getElementById('plIncomeList').innerHTML = Object.entries(incomeMap).filter(([, v]) => v > 0).map(([k, v]) => `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`).join('') || '<div class="pl-row">データなし</div>';
+    document.getElementById('plExpenseList').innerHTML = Object.entries(expenseMap).filter(([, v]) => v > 0).map(([k, v]) => `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`).join('') || '<div class="pl-row">データなし</div>';
     document.getElementById('plIncomeTotalAmt').textContent = formatYen(incomeTotal);
     document.getElementById('plExpenseTotalAmt').textContent = formatYen(expenseTotal);
     document.getElementById('plResultIncome').textContent = formatYen(incomeTotal);
     document.getElementById('plResultExpense').textContent = formatYen(expenseTotal);
-
     const netEl = document.getElementById('plResultNet');
-    netEl.textContent = formatYen(net);
-    netEl.className = net >= 0 ? 'positive' : 'negative';
-
-    // 青色申告第2面 月別内訳も連動更新
+    netEl.textContent = formatYen(incomeTotal - expenseTotal);
+    netEl.className = (incomeTotal - expenseTotal) >= 0 ? 'positive' : 'negative';
     renderBlueForm2(year, entries);
 }
 
-// ============================================================
-// 青色申告決算書 第2面 — 月別売上・仕入等内訳
-// ============================================================
 function renderBlueForm2(year, entries) {
     const tbody = document.getElementById('blue2TableBody');
     if (!tbody) return;
-
-    // 月別区割新素（合計用配列）
-    const salesByMonth = new Array(12).fill(0); // 売上
-    const purchaseByMonth = new Array(12).fill(0); // 仕入（売上原価等）
-    const rentByMonth = new Array(12).fill(0); // 地代家賃（按分後・経費計上額）
-    const rentBeforeRatioByMonth = new Array(12).fill(0); // 地代家賃（按分前・支払全額）
-
+    const sales = new Array(12).fill(0), purchase = new Array(12).fill(0), rent = new Array(12).fill(0), rentRaw = new Array(12).fill(0);
     entries.forEach(e => {
-        const monthIdx = parseInt(e.date.slice(5, 7)) - 1; // 0-11
-        if (monthIdx < 0 || monthIdx > 11) return;
-        const amt = e.totalAfterRatio;
-
-        if (isIncomeAccount(e.account)) {
-            // 収入科目 = 売上
-            salesByMonth[monthIdx] += amt;
-        } else if (e.account.includes('売上原価') || e.account.includes('仕入')) {
-            // 仕入 （売上原価・仕入高等）
-            purchaseByMonth[monthIdx] += amt;
-        } else if (e.account.includes('地代家賃')) {
-            // 地代家賃
-            rentByMonth[monthIdx] += amt;
-            rentBeforeRatioByMonth[monthIdx] += (parseFloat(e.amount) || 0);
-        }
+        const m = parseInt(e.date.slice(5, 7)) - 1;
+        if (isIncomeAccount(e.account)) sales[m] += e.totalAfterRatio;
+        else if (e.account.includes('売上原価') || e.account.includes('仕入')) purchase[m] += e.totalAfterRatio;
+        else if (e.account.includes('地代家賃')) { rent[m] += e.totalAfterRatio; rentRaw[m] += (parseFloat(e.amount) || 0); }
     });
-
-    // 行生成関数
-    const makeRow = (label, data, colorClass) => {
-        const total = data.reduce((s, v) => s + v, 0);
-        const cells = data.map(v =>
-            `<td class="amount-cell blue2-amt">${v > 0 ? formatYen(v) : '<span class="blue2-zero">-</span>'}</td>`
-        ).join('');
-        return `<tr>
-            <td class="blue2-label ${colorClass}">${label}</td>
-            ${cells}
-            <td class="amount-cell blue2-total">${formatYen(total)}</td>
-        </tr>`;
-    };
-
-    const hasSales = salesByMonth.some(v => v > 0);
-    const hasPurchase = purchaseByMonth.some(v => v > 0);
-    const hasRent = rentByMonth.some(v => v > 0);
-
-    if (!hasSales && !hasPurchase && !hasRent) {
-        tbody.innerHTML = '<tr class="empty-row"><td colspan="14">対象年のデータがありません</td></tr>';
-        return;
-    }
-
-    tbody.innerHTML = [
-        makeRow('📈 売上高', salesByMonth, 'blue2-income'),
-        makeRow('📦 仕入高（売上原価）', purchaseByMonth, 'blue2-expense'),
-        makeRow('🏠 地代家賃（按分前支払全額）', rentBeforeRatioByMonth, 'blue2-rent'),
-        makeRow('🏠 地代家賃（経費計上額）', rentByMonth, 'blue2-rent')
-    ].join('');
+    const makeRow = (l, d) => `<tr><td class="blue2-label">${l}</td>${d.map(v => `<td class="amount-cell">${v > 0 ? formatYen(v) : '-'}</td>`).join('')}<td class="amount-cell blue2-total">${formatYen(d.reduce((s, v) => s + v, 0))}</td></tr>`;
+    tbody.innerHTML = makeRow('売上高', sales) + makeRow('仕入高', purchase) + makeRow('地代家賃(支払)', rentRaw) + makeRow('地代家賃(経費)', rent);
 }
 
-// ============================================================
-// 設定タブのUI
-// ============================================================
 function renderSettingsUI() {
     document.getElementById('settingName').value = state.settings.name || '';
     document.getElementById('settingType').value = state.settings.type || 'blue';
-    document.getElementById('settingYear').value = state.settings.year || 2025;
+    document.getElementById('settingYear').value = state.settings.year || 2026;
     document.getElementById('settingIncomeCounter').value = state.settings.incomeCounterAccount || '事業主貸';
     document.getElementById('settingExpenseCounter').value = state.settings.expenseCounterAccount || '事業主借';
-
-    renderTagList('paymentList', state.settings.payments.map(p => `${p.name}（${p.type}）`),
-        idx => { state.settings.payments.splice(idx, 1); persist(); renderSettingsUI(); populatePaymentSelect(); });
-
-    renderTagList('expenseAccountList', state.settings.expenseAccounts,
-        idx => {
-            state.settings.expenseAccounts.splice(idx, 1);
-            persist();
-            renderSettingsUI();
-            populateAccountSelects();
-        });
-
-    renderTagList('incomeAccountList', state.settings.incomeAccounts,
-        idx => {
-            state.settings.incomeAccounts.splice(idx, 1);
-            persist();
-            renderSettingsUI();
-            populateAccountSelects();
-        });
-
-    renderTagList('tagSettingsList', state.settings.tags,
-        idx => {
-            state.settings.tags.splice(idx, 1);
-            persist();
-            renderSettingsUI();
-            populateTagSelects();
-        });
+    renderTagList('paymentList', state.settings.payments.map(p => p.name), idx => { state.settings.payments.splice(idx, 1); persist(); renderSettingsUI(); populatePaymentSelect(); });
+    renderTagList('expenseAccountList', state.settings.expenseAccounts, idx => { state.settings.expenseAccounts.splice(idx, 1); persist(); renderSettingsUI(); populateAccountSelects(); });
+    renderTagList('incomeAccountList', state.settings.incomeAccounts, idx => { state.settings.incomeAccounts.splice(idx, 1); persist(); renderSettingsUI(); populateAccountSelects(); });
+    renderTagList('tagSettingsList', state.settings.tags, idx => { state.settings.tags.splice(idx, 1); persist(); renderSettingsUI(); populateTagSelects(); });
 }
 
 function renderTagList(containerId, items, onRemove) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    container.innerHTML = '';
-    items.forEach((item, idx) => {
-        const tag = document.createElement('span');
-        tag.className = 'tag';
-        tag.innerHTML = `${escHtml(item)}<button class="tag-remove" title="削除">×</button>`;
-        tag.querySelector('.tag-remove').addEventListener('click', () => onRemove(idx));
-        container.appendChild(tag);
-    });
+    container.innerHTML = items.map((item, idx) => `<span class="tag">${escHtml(item)}<button class="tag-remove">×</button></span>`).join('');
+    container.querySelectorAll('.tag-remove').forEach((btn, idx) => btn.addEventListener('click', () => onRemove(idx)));
 }
 
-// ============================================================
-// エントリ追加
-// ============================================================
 function addEntry(formData) {
-    const id = generateId();
-    const { totalAfterRatio } = calcAmount(
-        formData.amount, formData.ratio
-    );
-    const entry = {
-        id,
-        date: formData.date,
-        account: formData.account,
-        subAccount: formData.subAccount,
-        amount: formData.amount,
-        ratio: formData.ratio,
-        totalAfterRatio,
-        tag: formData.tag,
-        paymentMethod: formData.paymentMethod,
-        description: formData.description,
-        createdAt: Date.now()
-    };
-    state.entries.push(entry);
-
-    // 新しいタグなら設定に追加
-    if (formData.tag && !state.settings.tags.includes(formData.tag)) {
-        state.settings.tags.push(formData.tag);
-        renderSettingsUI();
-        populateTagSelects();
-    }
-
+    const { after } = calcAmount(formData.amount, formData.ratio);
+    state.entries.push({ ...formData, id: generateId(), totalAfterRatio: after, createdAt: Date.now() });
+    if (formData.tag && !state.settings.tags.includes(formData.tag)) { state.settings.tags.push(formData.tag); renderSettingsUI(); populateTagSelects(); }
     persist();
-    return entry;
 }
 
-// ============================================================
-// エントリ削除
-// ============================================================
-function confirmDeleteEntry(id) {
+function moveToTrash(id) {
     const entry = state.entries.find(e => e.id === id);
     if (!entry) return;
-    showModal(
-        '仕訳を削除',
-        `「${entry.account}」${formatDate(entry.date)}  ${formatYen(entry.totalAfterRatio)} の仕訳を削除しますか？`,
-        () => {
-            state.entries = state.entries.filter(e => e.id !== id);
-            persist();
-            renderRecentTable();
-            renderJournalTable();
-            renderPL();
-            showToast('仕訳を削除しました', 'success');
-            closeModal();
-        }
-    );
+    state.trash = state.trash || [];
+    state.trash.push({ ...entry, deletedAt: Date.now() });
+    state.entries = state.entries.filter(e => e.id !== id);
+    persist();
+    renderRecentTable(); renderJournalTable(); renderPL();
+    showToast(`「${entry.account}」をゴミ箱に移動しました（30日後に自動削除）`, 'success');
 }
 
-// ============================================================
-// CSV エクスポート
-// ============================================================
+function restoreEntry(id) {
+    const entry = state.trash.find(e => e.id === id);
+    if (!entry) return;
+    const { deletedAt, ...restored } = entry;
+    state.entries.push(restored);
+    state.trash = state.trash.filter(e => e.id !== id);
+    persist();
+    renderRecentTable(); renderJournalTable(); renderPL(); renderTrash();
+    showToast(`「${entry.account}」を復元しました ✓`, 'success');
+}
+
+function permanentDelete(id) {
+    const entry = state.trash.find(e => e.id === id);
+    if (!entry) return;
+    showModal('完全削除', `「${entry.account}」を完全に削除します。この操作は取り消せません。`, () => {
+        state.trash = state.trash.filter(e => e.id !== id);
+        persist(); renderTrash(); showToast('完全に削除しました', 'success'); closeModal();
+    });
+}
+
+function emptyTrash() {
+    if (state.trash.length === 0) { showToast('ゴミ箱はすでに空です', 'error'); return; }
+    showModal('ゴミ箱を空にする', `${state.trash.length}件のデータを完全に削除します。この操作は取り消せません。`, () => {
+        state.trash = [];
+        persist(); renderTrash(); showToast('ゴミ箱を空にしました', 'success'); closeModal();
+    });
+}
+
+function renderTrash() {
+    const tbody = document.getElementById('trashTableBody');
+    if (!tbody) return;
+    if (!state.trash || state.trash.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:var(--text-muted);">🗑 ゴミ箱は空です</td></tr>';
+        return;
+    }
+    const now = Date.now();
+    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+    tbody.innerHTML = [...state.trash].sort((a, b) => b.deletedAt - a.deletedAt).map(e => {
+        const daysLeft = Math.ceil((e.deletedAt + thirtyDays - now) / (24 * 60 * 60 * 1000));
+        return `
+        <tr>
+            <td>${formatDate(e.date)}</td>
+            <td><span class="account-badge ${isIncomeAccount(e.account) ? 'income' : ''}">${escHtml(e.account)}</span></td>
+            <td class="amount-cell">${formatYen(e.totalAfterRatio)}</td>
+            <td>${escHtml(e.description || '')}</td>
+            <td><span style="color:${daysLeft <= 7 ? '#ef5350' : 'var(--text-muted)'}; font-size:0.8rem;">あと${daysLeft}日</span></td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-sm btn-outline" data-id="${e.id}" onclick="restoreEntry('${e.id}')">↩ 復元</button>
+                    <button class="btn btn-sm btn-danger" data-id="${e.id}" onclick="permanentDelete('${e.id}')">完全削除</button>
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
 function exportCSV() {
-    if (state.entries.length === 0) {
-        showToast('エクスポートするデータがありません', 'error');
-        return;
-    }
-
-    const headers = ['日付', '勘定科目', '補助科目', '金額（税込）', '按分率(%)',
-        '経費計上額', 'タグ', '支払方法', '摘要'];
-
-    const rows = [...state.entries]
-        .sort((a, b) => a.date.localeCompare(b.date))
-        .map(e => [
-            e.date, e.account, e.subAccount || '', e.amount,
-            e.ratio, e.totalAfterRatio, e.tag || '', e.paymentMethod, e.description || ''
-        ]);
-
-    const csv = [headers, ...rows]
-        .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-        .join('\n');
-
-    const bom = '\uFEFF';
-    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `仕訳帳_${state.settings.year}_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('CSVをエクスポートしました ✓', 'success');
+    const csv = [['日付', '勘定科目', '金額', '按分率', '経費額', 'タグ', '支払方法', 'メモ'], ...state.entries.map(e => [e.date, e.account, e.amount, e.ratio, e.totalAfterRatio, e.tag, e.paymentMethod, e.description])].map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'data.csv'; a.click();
 }
 
-// ============================================================
-// P/L CSV エクスポート
-// ============================================================
-function exportPLCSV() {
-    const year = parseInt(document.getElementById('plYear')?.value) || state.settings.year;
-    const entries = state.entries.filter(e => e.date.startsWith(String(year)));
-
-    const incomeMap = {};
-    state.settings.incomeAccounts.forEach(a => { incomeMap[a] = 0; });
-    entries.filter(e => isIncomeAccount(e.account))
-        .forEach(e => { incomeMap[e.account] = (incomeMap[e.account] || 0) + e.totalAfterRatio; });
-
-    const expenseMap = {};
-    state.settings.expenseAccounts.forEach(a => { expenseMap[a] = 0; });
-    entries.filter(e => !isIncomeAccount(e.account))
-        .forEach(e => { expenseMap[e.account] = (expenseMap[e.account] || 0) + e.totalAfterRatio; });
-
-    const incomeTotal = Object.values(incomeMap).reduce((s, v) => s + v, 0);
-    const expenseTotal = Object.values(expenseMap).reduce((s, v) => s + v, 0);
-
-    const rows = [];
-    rows.push(['区分', '勘定科目', '金額']);
-
-    // 収入
-    Object.entries(incomeMap).forEach(([k, v]) => {
-        if (v > 0) rows.push(['収入（売上）', k, v]);
-    });
-    rows.push(['収入合計', '', incomeTotal]);
-    rows.push(['', '', '']); // 空行
-
-    // 経費
-    Object.entries(expenseMap).forEach(([k, v]) => {
-        if (v > 0) rows.push(['経費', k, v]);
-    });
-    rows.push(['経費合計', '', expenseTotal]);
-    rows.push(['', '', '']); // 空行
-
-    // 差引
-    rows.push(['事業所得（差引）', '', incomeTotal - expenseTotal]);
-
-    const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const bom = '\uFEFF';
-    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `損益計算書_${year}_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('P/LをCSVでエクスポートしました ✓', 'success');
-}
-
-// ============================================================
-// B/S CSV エクスポート
-// ============================================================
-function exportBSCSV() {
-    const year = parseInt(document.getElementById('bsYear')?.value) || state.settings.year;
-    const bsData = state.bs[year] || { asset: {}, liability: {} };
-
-    const rows = [];
-    rows.push(['令和' + (year - 2018) + '年分 貸借対照表（' + year + '年）']);
-    rows.push(['区分', '勘定科目', '期首残高', '期末残高']);
-
-    // 資産の部
-    let assetStart = 0, assetEnd = 0;
-    BS_ASSET_ACCOUNTS.forEach(acc => {
-        const s = bsData.asset[acc]?.start || 0;
-        const e = bsData.asset[acc]?.end || 0;
-        assetStart += s; assetEnd += e;
-        rows.push(['資産の部', acc, s, e]);
-    });
-    rows.push(['資産合計', '', assetStart, assetEnd]);
-    rows.push(['', '', '', '']); // 空行
-
-    // 負債・資本の部
-    let liabStart = 0, liabEnd = 0;
-    BS_LIABILITY_ACCOUNTS.forEach(acc => {
-        const s = bsData.liability[acc]?.start || 0;
-        const e = bsData.liability[acc]?.end || 0;
-        liabStart += s; liabEnd += e;
-        rows.push(['負債・資本の部', acc, s, e]);
-    });
-    rows.push(['負債・資本合計', '', liabStart, liabEnd]);
-
-    const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const bom = '\uFEFF';
-    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `貸借対照表_${year}_${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('B/SをCSVでエクスポートしました ✓', 'success');
-}
-
-// ============================================================
-// JSON バックアップと復元（インポート / エクスポート）
-// ============================================================
 function exportJSON() {
-    // stateオブジェクト全体をパースしてJSONとして保存
-    const jsonStr = JSON.stringify(state, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `会計帳簿バックアップ_${state.settings.year}_${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('バックアップ（JSON）を保存しました ✓', 'success');
+    const blob = new Blob([JSON.stringify(state)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'backup.json'; a.click();
 }
 
-function handleImportJSON(event) {
-    const file = event.target.files[0];
+function handleImportJSON(e) {
+    const file = e.target.files[0];
     if (!file) return;
-
-    if (!file.name.endsWith('.json')) {
-        showToast('JSONファイルを選択してください', 'error');
-        return;
-    }
-
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = (ev) => {
         try {
-            const importedData = JSON.parse(e.target.result);
-            if (!importedData.entries || !importedData.settings) {
-                throw new Error('形式が違います');
-            }
-
-            // 確認ダイアログ
-            showModal('復元の確認', '現在のデータはすべて上書きされます。本当によろしいですか？', () => {
-                state = importedData;
+            const data = JSON.parse(ev.target.result);
+            if (data.entries && data.settings) {
+                state = { ...state, ...data };
                 persist();
-                closeModal();
-                showToast('データを復元しました。画面をリロードします。', 'success');
-                // 1秒後にリロードして全体を反映
-                setTimeout(() => location.reload(), 1000);
-            });
-
+                location.reload();
+            } else {
+                showToast('形式が正しくありません', 'error');
+            }
         } catch (err) {
-            showToast('ファイルの読み込みに失敗しました。正しいバックアップファイルか確認してください。', 'error');
+            showToast('ファイルの読み込みに失敗しました', 'error');
         }
     };
     reader.readAsText(file);
-    // 同じファイルを再度選べるようにリセット
-    event.target.value = '';
+}
+
+function renderPL() {
+    const year = parseInt(document.getElementById('plYear')?.value) || (state.settings ? state.settings.year : 2026);
+    const entries = state.entries.filter(e => e.date.startsWith(String(year)));
+    const incomeMap = {}, expenseMap = {};
+    if (state.settings) {
+        state.settings.incomeAccounts.forEach(a => incomeMap[a] = 0);
+        state.settings.expenseAccounts.forEach(a => expenseMap[a] = 0);
+    }
+    entries.forEach(e => {
+        if (isIncomeAccount(e.account)) incomeMap[e.account] = (incomeMap[e.account] || 0) + e.totalAfterRatio;
+        else expenseMap[e.account] = (expenseMap[e.account] || 0) + e.totalAfterRatio;
+    });
+    const incomeTotal = Object.values(incomeMap).reduce((s, v) => s + v, 0);
+    const expenseTotal = Object.values(expenseMap).reduce((s, v) => s + v, 0);
+    
+    const incomeListEl = document.getElementById('plIncomeList');
+    if (incomeListEl) {
+        incomeListEl.innerHTML = Object.entries(incomeMap).filter(([, v]) => v > 0).map(([k, v]) => `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`).join('') || '<div class="pl-row">データなし</div>';
+    }
+    const expenseListEl = document.getElementById('plExpenseList');
+    if (expenseListEl) {
+        expenseListEl.innerHTML = Object.entries(expenseMap).filter(([, v]) => v > 0).map(([k, v]) => `<div class="pl-row"><span class="pl-row-name">${escHtml(k)}</span><span class="pl-row-amount">${formatYen(v)}</span></div>`).join('') || '<div class="pl-row">データなし</div>';
+    }
+    
+    document.getElementById('plIncomeTotalAmt').textContent = formatYen(incomeTotal);
+    document.getElementById('plExpenseTotalAmt').textContent = formatYen(expenseTotal);
+    const net = incomeTotal - expenseTotal;
+    document.getElementById('plResultIncome').textContent = formatYen(incomeTotal);
+    document.getElementById('plResultExpense').textContent = formatYen(expenseTotal);
+    const netEl = document.getElementById('plResultNet');
+    if (netEl) {
+        netEl.textContent = formatYen(net);
+        netEl.className = net >= 0 ? 'positive' : net < 0 ? 'negative' : '';
+    }
+    renderBlueForm2(year, entries);
+}
+
+function renderBlueForm2(year, entries) {
+    const tbody = document.getElementById('blue2TableBody');
+    if (!tbody) return;
+    const salesByMonth = new Array(12).fill(0), purchaseByMonth = new Array(12).fill(0), rentByMonth = new Array(12).fill(0);
+    entries.forEach(e => {
+        const m = parseInt(e.date.slice(5, 7)) - 1;
+        if (m < 0 || m > 11) return;
+        if (isIncomeAccount(e.account)) salesByMonth[m] += e.totalAfterRatio;
+        else if (e.account.includes('売上原価') || e.account.includes('仕入')) purchaseByMonth[m] += e.totalAfterRatio;
+        else if (e.account.includes('地代家賃')) rentByMonth[m] += e.totalAfterRatio;
+    });
+    const makeRow = (label, data) => `<tr><td class="blue2-label">${label}</td>${data.map(v => `<td class="amount-cell blue2-amt">${v > 0 ? formatYen(v) : '<span class="blue2-zero">-</span>'}</td>`).join('')}<td class="amount-cell blue2-total">${formatYen(data.reduce((s, v) => s + v, 0))}</td></tr>`;
+    tbody.innerHTML = makeRow('売上金額', salesByMonth) + makeRow('仕入金額', purchaseByMonth) + makeRow('地代家賃', rentByMonth);
+}
+
+function exportPLCSV() {
+    const year = parseInt(document.getElementById('plYear')?.value) || (state.settings ? state.settings.year : 2026);
+    const entries = state.entries.filter(e => e.date.startsWith(String(year)));
+    const rows = [['勘定科目', '金額']];
+    if (state.settings) {
+        state.settings.incomeAccounts.forEach(a => { const s = entries.filter(e => e.account === a).reduce((v, e) => v + e.totalAfterRatio, 0); if(s>0) rows.push([a, s]); });
+        state.settings.expenseAccounts.forEach(a => { const s = entries.filter(e => e.account === a).reduce((v, e) => v + e.totalAfterRatio, 0); if(s>0) rows.push([a, s]); });
+    }
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `pl_${year}.csv`; a.click();
+}
+
+function exportBSCSV() {
+    const year = parseInt(document.getElementById('bsYear')?.value) || (state.settings ? state.settings.year : 2026);
+    const data = state.bs[year] || { asset: {}, liability: {} };
+    const rows = [['区分', '勘定科目', '期首金額', '期末金額']];
+    BS_ASSET_ACCOUNTS.forEach(a => rows.push(['資産', a, data.asset[a]?.start || 0, data.asset[a]?.end || 0]));
+    BS_LIABILITY_ACCOUNTS.forEach(a => rows.push(['負債・資本', a, data.liability[a]?.start || 0, data.liability[a]?.end || 0]));
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `bs_${year}.csv`; a.click();
+}
+
+function salaryToFurusato() {
+    const total = calcSalarySheet();
+    const simSalaryInput = document.getElementById('simSalary');
+    if (simSalaryInput) {
+        simSalaryInput.value = total;
+        const furusatoTabBtn = document.querySelector('.tab-btn[data-tab="furusato"]');
+        if (furusatoTabBtn) furusatoTabBtn.click();
+        showToast('給与収入をシミュレーターにコピーしました', 'success');
+    }
+}
+
+function resetSalary() {
+    ['salaryMonthly', 'salaryMonths', 'salarySummerBonus', 'salaryWinterBonus', 'salaryOther'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = id === 'salaryMonths' ? 12 : '';
+    });
+    document.getElementById('salaryCalcTotal').textContent = '¥0';
+    document.getElementById('salaryCalcDeduction').textContent = '¥0';
+    document.getElementById('salaryCalcIncome').textContent = '¥0';
 }
 
 // ============================================================
-// ふるさと納税シミュレーター
+// シミュレーター・計算ロジック
 // ============================================================
-
-// 給与所得控除の計算（2025年）
 function calcSalaryDeduction(income) {
-    if (income <= 0) return 0;
-    if (income <= 1625000) return 550000;
+    if (income <= 1625000) return 650000;
     if (income <= 1800000) return Math.floor(income * 0.4) - 100000;
     if (income <= 3600000) return Math.floor(income * 0.3) + 80000;
     if (income <= 6600000) return Math.floor(income * 0.2) + 440000;
@@ -4112,866 +4264,414 @@ function calcSalaryDeduction(income) {
     return 1950000;
 }
 
-// 所得税率と控除額（速算表）
 function getIncomeTaxRate(taxableIncome) {
     if (taxableIncome <= 1950000) return { rate: 0.05, deduction: 0 };
     if (taxableIncome <= 3300000) return { rate: 0.10, deduction: 97500 };
     if (taxableIncome <= 6950000) return { rate: 0.20, deduction: 427500 };
     if (taxableIncome <= 9000000) return { rate: 0.23, deduction: 636000 };
     if (taxableIncome <= 18000000) return { rate: 0.33, deduction: 1536000 };
-    if (taxableIncome <= 40000000) return { rate: 0.40, deduction: 2796000 };
-    return { rate: 0.45, deduction: 4796000 };
+    return { rate: 0.40, deduction: 2796000 };
 }
 
 function calcFurusatoLimit() {
-    // --- 入力値の取得 ---
-    const salary = Math.max(0, parseFloat(document.getElementById('simSalary').value) || 0);
-    const bizRevenue = Math.max(0, parseFloat(document.getElementById('simBizRevenue').value) || 0);
-    const bizExpense = Math.max(0, parseFloat(document.getElementById('simBizExpense').value) || 0);
-    const blueDeduction = parseFloat(document.getElementById('simBlueDeduction').value) || 0;
-    const socialInsurance = Math.max(0, parseFloat(document.getElementById('simSocialInsurance').value) || 0);
-    const lifeInsurance = Math.max(0, Math.min(120000, parseFloat(document.getElementById('simLifeInsurance').value) || 0));
-    const earthquakeInsurance = Math.max(0, Math.min(50000, parseFloat(document.getElementById('simEarthquakeInsurance').value) || 0));
-    const ideco = Math.max(0, parseFloat(document.getElementById('simIdeco').value) || 0);
-    const medical = Math.max(0, parseFloat(document.getElementById('simMedical').value) || 0);
-
-    // 配偶者控除
-    const spouseVal = document.getElementById('simSpouse').value;
-    let spouseDeductionIT = 0; // 所得税用
-    let spouseDeductionRes = 0; // 住民税用
-    if (spouseVal === '380000') { spouseDeductionIT = 380000; spouseDeductionRes = 330000; }
-    else if (spouseVal === '480000') { spouseDeductionIT = 480000; spouseDeductionRes = 380000; }
-    else if (spouseVal === '380000_special') { spouseDeductionIT = 380000; spouseDeductionRes = 330000; }
-    else if (spouseVal === '260000_special') { spouseDeductionIT = 260000; spouseDeductionRes = 260000; }
-    else if (spouseVal === '110000_special') { spouseDeductionIT = 110000; spouseDeductionRes = 110000; }
-
-    // 扶養控除
-    const depGeneral = parseInt(document.getElementById('simDependentsGeneral').value) || 0;
-    const depSpecific = parseInt(document.getElementById('simDependentsSpecific').value) || 0;
-    const depOld = parseInt(document.getElementById('simDependentsOld').value) || 0;
-    const dependentDeductionIT = depGeneral * 380000 + depSpecific * 630000 + depOld * 480000;
-    const dependentDeductionRes = depGeneral * 330000 + depSpecific * 450000 + depOld * 380000;
-
-    // 障害者控除
-    const disabilityIT = parseInt(document.getElementById('simDisability').value) || 0;
-    let disabilityRes = 0;
-    if (disabilityIT === 270000) disabilityRes = 260000;
-    else if (disabilityIT === 400000) disabilityRes = 300000;
-    else if (disabilityIT === 750000) disabilityRes = 530000;
-
-    // 寡婦/ひとり親控除
-    const singleParentIT = parseInt(document.getElementById('simSingleParent').value) || 0;
-    let singleParentRes = 0;
-    if (singleParentIT === 270000) singleParentRes = 260000;
-    else if (singleParentIT === 350000) singleParentRes = 300000;
-
-    // --- 計算 ---
-    // 1. 給与所得
-    const salaryDeduction = calcSalaryDeduction(salary);
-    const salaryIncome = Math.max(0, salary - salaryDeduction);
-
-    // 2. 事業所得（青色申告特別控除を適用）
-    const bizProfit = Math.max(0, bizRevenue - bizExpense);
-    const actualBlueDeduction = Math.min(blueDeduction, bizProfit); // 所得金額以下に制限
-    const bizIncome = Math.max(0, bizProfit - actualBlueDeduction);
-
-    // 3. 総所得金額
-    const totalIncome = salaryIncome + bizIncome;
-
-    // 4. 基礎控除 (所得税：48万、住民税：43万)
-    const basicDeductionIT = totalIncome <= 24000000 ? 480000 : 0;
-    const basicDeductionRes = totalIncome <= 24000000 ? 430000 : 0;
-
-    // 5. 所得控除合計（所得税用）
-    const totalDeductionIT = socialInsurance + lifeInsurance + earthquakeInsurance
-        + ideco + medical + basicDeductionIT + spouseDeductionIT
-        + dependentDeductionIT + disabilityIT + singleParentIT;
-
-    // 所得控除合計（住民税用） - 生命保険料控除・地震保険料控除は所得税と同額で簡略化
-    const totalDeductionRes = socialInsurance + lifeInsurance + earthquakeInsurance
-        + ideco + medical + basicDeductionRes + spouseDeductionRes
-        + dependentDeductionRes + disabilityRes + singleParentRes;
-
-    // 6. 課税所得（所得税用）
-    const taxableIncomeIT = Math.max(0, totalIncome - totalDeductionIT);
-
-    // 7. 課税所得（住民税用）
-    const taxableIncomeRes = Math.max(0, totalIncome - totalDeductionRes);
-
-    // 8. 所得税率
-    const { rate: incomeTaxRate } = getIncomeTaxRate(taxableIncomeIT);
-
-    // 9. 住民税所得割額（税率10%）
-    const residentTaxRate = 0.10;
-    const residentTaxAmount = Math.floor(taxableIncomeRes * residentTaxRate);
-
-    // 10. ふるさと納税 控除上限額の計算
-    // 控除上限額 = (住民税所得割額 × 20%) / (90% − 所得税率×1.021) + 2000
-    const denominator = 0.90 - incomeTaxRate * 1.021;
-    let limit = 0;
-    if (denominator > 0 && residentTaxAmount > 0) {
-        limit = Math.floor((residentTaxAmount * 0.20) / denominator) + 2000;
-    }
-
-    // 控除内訳（上限額で寄付した場合）
-    const donation = limit;
-    const incomeTaxDeduction = donation > 2000 ? Math.floor((donation - 2000) * incomeTaxRate * 1.021) : 0;
-    const residentBasicDeduction = donation > 2000 ? Math.floor((donation - 2000) * 0.10) : 0;
-    const residentSpecialDeduction = donation > 2000
-        ? Math.floor((donation - 2000) * (0.90 - incomeTaxRate * 1.021)) : 0;
-
-    return {
-        // 入力
-        salary, bizRevenue, bizExpense, blueDeduction: actualBlueDeduction,
-        socialInsurance, lifeInsurance, earthquakeInsurance, ideco, medical,
-        // 計算結果
-        salaryDeduction, salaryIncome,
-        bizProfit, bizIncome,
-        totalIncome,
-        totalDeductionIT, totalDeductionRes,
-        basicDeductionIT, basicDeductionRes,
-        spouseDeductionIT, dependentDeductionIT, disabilityIT, singleParentIT,
-        taxableIncomeIT, taxableIncomeRes,
-        incomeTaxRate, residentTaxAmount,
-        limit,
-        incomeTaxDeduction, residentBasicDeduction, residentSpecialDeduction
-    };
+    const salary = parseFloat(document.getElementById('simSalary').value) || 0;
+    const bizProfit = (parseFloat(document.getElementById('simBizRevenue').value) || 0) - (parseFloat(document.getElementById('simBizExpense').value) || 0);
+    const totalIncome = Math.max(0, salary - calcSalaryDeduction(salary)) + Math.max(0, bizProfit - (parseFloat(document.getElementById('simBlueDeduction').value) || 0));
+    const { rate } = getIncomeTaxRate(totalIncome);
+    const residentTax = Math.floor(totalIncome * 0.1);
+    const limit = Math.floor((residentTax * 0.2) / (0.9 - rate * 1.021)) + 2000;
+    return { limit, incomeTaxDeduction: Math.floor((limit - 2000) * rate * 1.021), residentBasicDeduction: Math.floor((limit - 2000) * 0.1), residentSpecialDeduction: Math.floor((limit - 2000) * (0.9 - rate * 1.021)) };
 }
 
-function displayFurusatoResult(result) {
-    // プレースホルダーを隠し、結果を表示
+function displayFurusatoResult(res) {
     document.getElementById('simResultPlaceholder').style.display = 'none';
     document.getElementById('simResultContent').style.display = '';
-
-    // メイン結果
-    document.getElementById('simResultAmount').textContent = formatYen(result.limit);
-
-    // 控除内訳
-    document.getElementById('simBreakdownIncomeTax').textContent = formatYen(result.incomeTaxDeduction);
-    document.getElementById('simBreakdownResidentBasic').textContent = formatYen(result.residentBasicDeduction);
-    document.getElementById('simBreakdownResidentSpecial').textContent = formatYen(result.residentSpecialDeduction);
-
-    // バーチャート
-    const totalDeductions = result.incomeTaxDeduction + result.residentBasicDeduction + result.residentSpecialDeduction;
-    const maxVal = Math.max(totalDeductions, 1);
-    const bars = [
-        { label: '所得税', value: result.incomeTaxDeduction, cls: 'income-tax' },
-        { label: '住民税(基本)', value: result.residentBasicDeduction, cls: 'resident-basic' },
-        { label: '住民税(特例)', value: result.residentSpecialDeduction, cls: 'resident-special' },
-    ];
-    document.getElementById('simBarChart').innerHTML = bars.map(b => {
-        const pct = maxVal > 0 ? Math.round(b.value / maxVal * 100) : 0;
-        return `
-            <div class="sim-bar-row">
-                <span class="sim-bar-label">${b.label}</span>
-                <div class="sim-bar-track">
-                    <div class="sim-bar-fill ${b.cls}" style="width:${pct}%">${formatYen(b.value)}</div>
-                </div>
-            </div>`;
-    }).join('');
-
-    // 計算詳細
-    const details = [
-        { name: '給与収入', value: formatYen(result.salary) },
-        { name: '└ 給与所得控除', value: `− ${formatYen(result.salaryDeduction)}` },
-        { name: '└ 給与所得', value: formatYen(result.salaryIncome), highlight: true },
-        { name: '---', value: '' },
-        { name: '副業 売上', value: formatYen(result.bizRevenue) },
-        { name: '└ 経費', value: `− ${formatYen(result.bizRevenue - result.bizProfit > 0 ? result.bizRevenue - result.bizIncome - result.blueDeduction : 0)}` },
-        { name: '└ 青色申告特別控除', value: `− ${formatYen(result.blueDeduction)}` },
-        { name: '└ 事業所得', value: formatYen(result.bizIncome), highlight: true },
-        { name: '---', value: '' },
-        { name: '総所得金額', value: formatYen(result.totalIncome), highlight: true },
-        { name: '└ 所得控除合計（所得税）', value: `− ${formatYen(result.totalDeductionIT)}` },
-        { name: '課税所得（所得税）', value: formatYen(result.taxableIncomeIT), highlight: true },
-        { name: '所得税率', value: `${(result.incomeTaxRate * 100).toFixed(0)}%`, highlight: true },
-        { name: '---', value: '' },
-        { name: '└ 所得控除合計（住民税）', value: `− ${formatYen(result.totalDeductionRes)}` },
-        { name: '課税所得（住民税）', value: formatYen(result.taxableIncomeRes) },
-        { name: '住民税所得割額', value: formatYen(result.residentTaxAmount), highlight: true },
-    ];
-
-    document.getElementById('simDetailList').innerHTML = details.map(d => {
-        if (d.name === '---') return '<div class="sim-detail-separator"></div>';
-        return `<div class="sim-detail-row ${d.highlight ? 'highlight' : ''}">
-            <span class="sim-detail-name">${d.name}</span>
-            <span class="sim-detail-value">${d.value}</span>
-        </div>`;
-    }).join('');
+    document.getElementById('simResultAmount').textContent = formatYen(res.limit);
+    document.getElementById('simBreakdownIncomeTax').textContent = formatYen(res.incomeTaxDeduction);
+    document.getElementById('simBreakdownResidentBasic').textContent = formatYen(res.residentBasicDeduction);
+    document.getElementById('simBreakdownResidentSpecial').textContent = formatYen(res.residentSpecialDeduction);
 }
 
 function loadPLDataToSim() {
-    const year = new Date().getFullYear();
-    const entries = state.entries.filter(e => e.date.startsWith(String(year)));
-
-    const incomeTotal = entries
-        .filter(e => isIncomeAccount(e.account))
-        .reduce((s, e) => s + e.totalAfterRatio, 0);
-
-    const expenseTotal = entries
-        .filter(e => !isIncomeAccount(e.account))
-        .reduce((s, e) => s + e.totalAfterRatio, 0);
-
-    document.getElementById('simBizRevenue').value = incomeTotal || '';
-    document.getElementById('simBizExpense').value = expenseTotal || '';
-
-    showToast(`${year}年の損益データを反映しました（売上: ${formatYen(incomeTotal)} / 経費: ${formatYen(expenseTotal)}）`, 'success');
+    const entries = state.entries;
+    document.getElementById('simBizRevenue').value = entries.filter(e => isIncomeAccount(e.account)).reduce((s, e) => s + e.totalAfterRatio, 0);
+    document.getElementById('simBizExpense').value = entries.filter(e => !isIncomeAccount(e.account)).reduce((s, e) => s + e.totalAfterRatio, 0);
 }
 
 function resetSimulator() {
-    const fields = ['simSalary', 'simBizRevenue', 'simBizExpense',
-        'simSocialInsurance', 'simLifeInsurance', 'simEarthquakeInsurance',
-        'simIdeco', 'simMedical'];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-    });
-    document.getElementById('simBlueDeduction').value = '650000';
-    document.getElementById('simSpouse').value = '0';
-    document.getElementById('simDependentsGeneral').value = '0';
-    document.getElementById('simDependentsSpecific').value = '0';
-    document.getElementById('simDependentsOld').value = '0';
-    document.getElementById('simDisability').value = '0';
-    document.getElementById('simSingleParent').value = '0';
-
+    ['simSalary', 'simBizRevenue', 'simBizExpense'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('simResultPlaceholder').style.display = '';
     document.getElementById('simResultContent').style.display = 'none';
-}
-
-// ============================================================
-// 貸借対照表（B/S）
-// ============================================================
-const BS_ASSET_ACCOUNTS = [
-    '現金', '当座預金', '普通預金', '定期預金',
-    '受取手形', '売掛金',
-    '棚卸資産', '前払金', '貸付金',
-    '建物', '建物附属設備', '車両運搬具', '工具器具備品', '土地',
-    '事業主貸'
-];
-const BS_LIABILITY_ACCOUNTS = [
-    '支払手形', '買掛金', '借入金',
-    '未払金', '前受金', '預り金',
-    '元入金', '事業主借'
-];
-
-function populateBSYears() {
-    const sel = document.getElementById('bsYear');
-    if (!sel) return;
-    sel.innerHTML = '';
-    const targetYear = state.settings.bsYear || state.settings.year;
-    for (let y = 2025; y <= 2030; y++) {
-        const o = document.createElement('option');
-        o.value = y;
-        o.textContent = `${y}年`;
-        if (y === targetYear) o.selected = true;
-        sel.appendChild(o);
-    }
 }
 
 function renderBS() {
     const year = parseInt(document.getElementById('bsYear')?.value) || state.settings.year;
     const bsData = state.bs[year] || { asset: {}, liability: {} };
-
-    // 資産の部
-    const assetBody = document.getElementById('bsAssetBody');
-    let assetStartTotal = 0, assetEndTotal = 0;
-    assetBody.innerHTML = BS_ASSET_ACCOUNTS.map(acc => {
-        const startVal = bsData.asset[acc]?.start || 0;
-        const endVal = bsData.asset[acc]?.end || 0;
-        assetStartTotal += startVal;
-        assetEndTotal += endVal;
-        return `<tr>
-            <td>${escHtml(acc)}</td>
-            <td class="amount-cell"><input type="number" data-bs-type="asset" data-bs-account="${acc}" data-bs-period="start" value="${startVal}" min="0"></td>
-            <td class="amount-cell"><input type="number" data-bs-type="asset" data-bs-account="${acc}" data-bs-period="end" value="${endVal}" min="0"></td>
-        </tr>`;
-    }).join('');
-    document.getElementById('bsAssetStartTotal').textContent = formatYen(assetStartTotal);
-    document.getElementById('bsAssetEndTotal').textContent = formatYen(assetEndTotal);
-
-    // 負債・資本の部
-    const liabilityBody = document.getElementById('bsLiabilityBody');
-    let liabilityStartTotal = 0, liabilityEndTotal = 0;
-    liabilityBody.innerHTML = BS_LIABILITY_ACCOUNTS.map(acc => {
-        const startVal = bsData.liability[acc]?.start || 0;
-        const endVal = bsData.liability[acc]?.end || 0;
-        liabilityStartTotal += startVal;
-        liabilityEndTotal += endVal;
-        return `<tr>
-            <td>${escHtml(acc)}</td>
-            <td class="amount-cell"><input type="number" data-bs-type="liability" data-bs-account="${acc}" data-bs-period="start" value="${startVal}" min="0"></td>
-            <td class="amount-cell"><input type="number" data-bs-type="liability" data-bs-account="${acc}" data-bs-period="end" value="${endVal}" min="0"></td>
-        </tr>`;
-    }).join('');
-    document.getElementById('bsLiabilityStartTotal').textContent = formatYen(liabilityStartTotal);
-    document.getElementById('bsLiabilityEndTotal').textContent = formatYen(liabilityEndTotal);
-
-    // 差額チェック
-    document.getElementById('bsCheckAsset').textContent = formatYen(assetEndTotal);
-    document.getElementById('bsCheckLiability').textContent = formatYen(liabilityEndTotal);
-    const diff = assetEndTotal - liabilityEndTotal;
-    document.getElementById('bsCheckDiff').textContent = formatYen(diff);
-    const resultEl = document.getElementById('bsCheckResult');
-    resultEl.classList.toggle('balanced', diff === 0);
-    resultEl.classList.toggle('unbalanced', diff !== 0);
-
-    // inputイベント（合計リアルタイム更新）
-    document.querySelectorAll('.bs-table input').forEach(inp => {
-        inp.addEventListener('input', updateBSTotals);
-    });
+    document.getElementById('bsAssetBody').innerHTML = BS_ASSET_ACCOUNTS.map(acc => `<tr><td>${acc}</td><td><input type="number" data-bs-type="asset" data-bs-account="${acc}" data-bs-period="start" value="${bsData.asset[acc]?.start || 0}"></td><td><input type="number" data-bs-type="asset" data-bs-account="${acc}" data-bs-period="end" value="${bsData.asset[acc]?.end || 0}"></td></tr>`).join('');
+    document.getElementById('bsLiabilityBody').innerHTML = BS_LIABILITY_ACCOUNTS.map(acc => `<tr><td>${acc}</td><td><input type="number" data-bs-type="liability" data-bs-account="${acc}" data-bs-period="start" value="${bsData.liability[acc]?.start || 0}"></td><td><input type="number" data-bs-type="liability" data-bs-account="${acc}" data-bs-period="end" value="${bsData.liability[acc]?.end || 0}"></td></tr>`).join('');
+    document.querySelectorAll('.bs-table input').forEach(i => i.addEventListener('input', updateBSTotals));
+    updateBSTotals();
 }
 
 function updateBSTotals() {
-    let assetStart = 0, assetEnd = 0, liabStart = 0, liabEnd = 0;
-    document.querySelectorAll('input[data-bs-type="asset"][data-bs-period="start"]').forEach(i => assetStart += parseFloat(i.value) || 0);
-    document.querySelectorAll('input[data-bs-type="asset"][data-bs-period="end"]').forEach(i => assetEnd += parseFloat(i.value) || 0);
-    document.querySelectorAll('input[data-bs-type="liability"][data-bs-period="start"]').forEach(i => liabStart += parseFloat(i.value) || 0);
-    document.querySelectorAll('input[data-bs-type="liability"][data-bs-period="end"]').forEach(i => liabEnd += parseFloat(i.value) || 0);
-
-    document.getElementById('bsAssetStartTotal').textContent = formatYen(assetStart);
-    document.getElementById('bsAssetEndTotal').textContent = formatYen(assetEnd);
-    document.getElementById('bsLiabilityStartTotal').textContent = formatYen(liabStart);
-    document.getElementById('bsLiabilityEndTotal').textContent = formatYen(liabEnd);
+    let assetEnd = 0, liabEnd = 0;
+    document.querySelectorAll('input[data-bs-period="end"]').forEach(i => {
+        if (i.dataset.bsType === 'asset') assetEnd += parseFloat(i.value) || 0;
+        else liabEnd += parseFloat(i.value) || 0;
+    });
     document.getElementById('bsCheckAsset').textContent = formatYen(assetEnd);
     document.getElementById('bsCheckLiability').textContent = formatYen(liabEnd);
-    const diff = assetEnd - liabEnd;
-    document.getElementById('bsCheckDiff').textContent = formatYen(diff);
-    const resultEl = document.getElementById('bsCheckResult');
-    resultEl.classList.toggle('balanced', diff === 0);
-    resultEl.classList.toggle('unbalanced', diff !== 0);
+    document.getElementById('bsCheckDiff').textContent = formatYen(assetEnd - liabEnd);
 }
 
 function saveBS() {
     const year = parseInt(document.getElementById('bsYear')?.value) || state.settings.year;
     if (!state.bs[year]) state.bs[year] = { asset: {}, liability: {} };
-
-    document.querySelectorAll('.bs-table input[data-bs-type]').forEach(inp => {
-        const type = inp.dataset.bsType;
-        const account = inp.dataset.bsAccount;
-        const period = inp.dataset.bsPeriod;
-        if (!state.bs[year][type][account]) state.bs[year][type][account] = { start: 0, end: 0 };
-        state.bs[year][type][account][period] = parseFloat(inp.value) || 0;
+    document.querySelectorAll('.bs-table input').forEach(i => {
+        if (!state.bs[year][i.dataset.bsType][i.dataset.bsAccount]) state.bs[year][i.dataset.bsType][i.dataset.bsAccount] = { start: 0, end: 0 };
+        state.bs[year][i.dataset.bsType][i.dataset.bsAccount][i.dataset.bsPeriod] = parseFloat(i.value) || 0;
     });
-    persist();
-    showToast(`${year}年の貸借対照表を保存しました ✓`, 'success');
+    persist(); showToast('保存しました', 'success');
 }
 
-// ============================================================
-// 投資収益
-// ============================================================
 function calcInvestment() {
-    // FX
-    const fxProfit = parseFloat(document.getElementById('invFxProfit').value) || 0;
-    const fxExpense = Math.max(0, parseFloat(document.getElementById('invFxExpense').value) || 0);
-    const fxTaxable = Math.max(0, fxProfit - fxExpense);
-    const fxTax = fxTaxable > 0 ? Math.floor(fxTaxable * 0.20315) : 0;
-    document.getElementById('invFxTaxable').textContent = formatYen(fxTaxable);
-    document.getElementById('invFxTax').textContent = formatYen(fxTax);
-
-    // 仮想通貨
-    const cryptoProfit = parseFloat(document.getElementById('invCryptoProfit').value) || 0;
-    const cryptoExpense = Math.max(0, parseFloat(document.getElementById('invCryptoExpense').value) || 0);
-    const cryptoTaxable = Math.max(0, cryptoProfit - cryptoExpense);
-    document.getElementById('invCryptoTaxable').textContent = formatYen(cryptoTaxable);
-
-    // 株式
-    const stockAccountType = document.getElementById('invStockAccountType').value;
-    const stockProfit = parseFloat(document.getElementById('invStockProfit').value) || 0;
-    const stockDividend = Math.max(0, parseFloat(document.getElementById('invStockDividend').value) || 0);
-    const stockTaxable = Math.max(0, stockProfit) + stockDividend;
-    const stockTax = stockTaxable > 0 ? Math.floor(stockTaxable * 0.20315) : 0;
-    document.getElementById('invStockTaxable').textContent = formatYen(stockTaxable);
-    document.getElementById('invStockTax').textContent = formatYen(stockTax);
-
-    // 源泉徴収ありの場合の注記
-    const noteEl = document.getElementById('invStockNote');
-    if (stockAccountType === 'tokutei_gen') {
-        noteEl.style.display = '';
-        noteEl.querySelector('.invest-note').textContent = '※ 源泉徴収済み→申告不要（損益通算する場合は申告）';
-    } else {
-        noteEl.style.display = 'none';
-    }
-
-    // サマリー
-    document.getElementById('invSumFx').textContent = formatYen(fxTaxable);
-    document.getElementById('invSumCrypto').textContent = formatYen(cryptoTaxable);
-    document.getElementById('invSumStock').textContent = formatYen(stockTaxable);
-
-    // 債券
-    const bondInterest = Math.max(0, parseFloat(document.getElementById('invBondInterest').value) || 0);
-    const bondGain = parseFloat(document.getElementById('invBondGain').value) || 0;
-    const bondTaxable = Math.max(0, bondInterest + bondGain);
-    const bondTax = bondTaxable > 0 ? Math.floor(bondTaxable * 0.20315) : 0;
-    document.getElementById('invBondTaxable').textContent = formatYen(bondTaxable);
-    document.getElementById('invBondTax').textContent = formatYen(bondTax);
-    document.getElementById('invSumBond').textContent = formatYen(bondTaxable);
-
-    const totalTax = fxTax + stockTax + bondTax;
-    document.getElementById('invSumTaxTotal').textContent = formatYen(totalTax) + '（※仮想通貨は総合課税）';
-
-    showToast('投資収益を計算しました ✓', 'success');
+    const fx = (parseFloat(document.getElementById('invFxProfit').value) || 0) - (parseFloat(document.getElementById('invFxExpense').value) || 0);
+    const crypto = (parseFloat(document.getElementById('invCryptoProfit').value) || 0) - (parseFloat(document.getElementById('invCryptoExpense').value) || 0);
+    const stock = (parseFloat(document.getElementById('invStockProfit').value) || 0) + (parseFloat(document.getElementById('invStockDividend').value) || 0);
+    const bond = (parseFloat(document.getElementById('invBondInterest').value) || 0) + (parseFloat(document.getElementById('invBondGain').value) || 0);
+    document.getElementById('invFxTaxable').textContent = formatYen(Math.max(0, fx));
+    document.getElementById('invCryptoTaxable').textContent = formatYen(Math.max(0, crypto));
+    document.getElementById('invStockTaxable').textContent = formatYen(Math.max(0, stock));
+    document.getElementById('invBondTaxable').textContent = formatYen(Math.max(0, bond));
+    document.getElementById('invSumFx').textContent = formatYen(Math.max(0, fx));
+    document.getElementById('invSumCrypto').textContent = formatYen(Math.max(0, crypto));
+    document.getElementById('invSumStock').textContent = formatYen(Math.max(0, stock));
+    document.getElementById('invSumBond').textContent = formatYen(Math.max(0, bond));
+    showToast('計算しました', 'success');
 }
 
 function saveInvestment() {
-    state.investment = {
-        fxProfit: parseFloat(document.getElementById('invFxProfit').value) || 0,
-        fxExpense: parseFloat(document.getElementById('invFxExpense').value) || 0,
-        cryptoProfit: parseFloat(document.getElementById('invCryptoProfit').value) || 0,
-        cryptoExpense: parseFloat(document.getElementById('invCryptoExpense').value) || 0,
-        stockAccountType: document.getElementById('invStockAccountType').value,
-        stockProfit: parseFloat(document.getElementById('invStockProfit').value) || 0,
-        stockDividend: parseFloat(document.getElementById('invStockDividend').value) || 0,
-        bondInterest: parseFloat(document.getElementById('invBondInterest').value) || 0,
-        bondGain: parseFloat(document.getElementById('invBondGain').value) || 0
-    };
-    persist();
-    showToast('投資データを保存しました ✓', 'success');
+    state.investment = { fxProfit: parseFloat(document.getElementById('invFxProfit').value) || 0, fxExpense: parseFloat(document.getElementById('invFxExpense').value) || 0, cryptoProfit: parseFloat(document.getElementById('invCryptoProfit').value) || 0, cryptoExpense: parseFloat(document.getElementById('invCryptoExpense').value) || 0, stockProfit: parseFloat(document.getElementById('invStockProfit').value) || 0, stockDividend: parseFloat(document.getElementById('invStockDividend').value) || 0, bondInterest: parseFloat(document.getElementById('invBondInterest').value) || 0, bondGain: parseFloat(document.getElementById('invBondGain').value) || 0 };
+    persist(); showToast('保存しました', 'success');
 }
 
 function loadInvestment() {
     const inv = state.investment || {};
-    if (inv.fxProfit) document.getElementById('invFxProfit').value = inv.fxProfit;
-    if (inv.fxExpense) document.getElementById('invFxExpense').value = inv.fxExpense;
-    if (inv.cryptoProfit) document.getElementById('invCryptoProfit').value = inv.cryptoProfit;
-    if (inv.cryptoExpense) document.getElementById('invCryptoExpense').value = inv.cryptoExpense;
-    if (inv.stockAccountType) document.getElementById('invStockAccountType').value = inv.stockAccountType;
-    if (inv.stockProfit) document.getElementById('invStockProfit').value = inv.stockProfit;
-    if (inv.stockDividend) document.getElementById('invStockDividend').value = inv.stockDividend;
-    if (inv.bondInterest) document.getElementById('invBondInterest').value = inv.bondInterest;
-    if (inv.bondGain) document.getElementById('invBondGain').value = inv.bondGain;
+    document.getElementById('invFxProfit').value = inv.fxProfit || '';
+    document.getElementById('invFxExpense').value = inv.fxExpense || '';
+    document.getElementById('invCryptoProfit').value = inv.cryptoProfit || '';
+    document.getElementById('invCryptoExpense').value = inv.cryptoExpense || '';
+    document.getElementById('invStockProfit').value = inv.stockProfit || '';
+    document.getElementById('invStockDividend').value = inv.stockDividend || '';
+    document.getElementById('invBondInterest').value = inv.bondInterest || '';
+    document.getElementById('invBondGain').value = inv.bondGain || '';
 }
 
 function resetInvestment() {
-    ['invFxProfit', 'invFxExpense', 'invCryptoProfit', 'invCryptoExpense',
-        'invStockProfit', 'invStockDividend', 'invBondInterest', 'invBondGain'].forEach(id => {
-            document.getElementById(id).value = '';
-        });
-    document.getElementById('invStockAccountType').value = 'tokutei_gen';
-    ['invFxTaxable', 'invFxTax', 'invCryptoTaxable', 'invStockTaxable', 'invStockTax',
-        'invSumFx', 'invSumCrypto', 'invSumStock', 'invBondTaxable', 'invBondTax', 'invSumBond'].forEach(id => {
-            document.getElementById(id).textContent = '¥0';
-        });
-    document.getElementById('invSumTaxTotal').textContent = '¥0';
-    document.getElementById('invStockNote').style.display = 'none';
+    ['invFxProfit', 'invFxExpense', 'invCryptoProfit', 'invCryptoExpense', 'invStockProfit', 'invStockDividend', 'invBondInterest', 'invBondGain'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    ['invFxTaxable', 'invCryptoTaxable', 'invStockTaxable', 'invBondTaxable', 'invSumFx', 'invSumCrypto', 'invSumStock', 'invSumBond'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '¥0';
+    });
 }
 
-// ============================================================
-// 給与計算シート
-// ============================================================
 function calcSalarySheet() {
-    const monthly = Math.max(0, parseFloat(document.getElementById('salaryMonthly').value) || 0);
-    const months = Math.max(1, Math.min(12, parseInt(document.getElementById('salaryMonths').value) || 12));
-    const summer = Math.max(0, parseFloat(document.getElementById('salarySummerBonus').value) || 0);
-    const winter = Math.max(0, parseFloat(document.getElementById('salaryWinterBonus').value) || 0);
-    const other = Math.max(0, parseFloat(document.getElementById('salaryOther').value) || 0);
-
-    const monthlyTotal = monthly * months;
-    const total = monthlyTotal + summer + winter + other;
-    const deduction = calcSalaryDeduction(total);
-    const income = Math.max(0, total - deduction);
-
-    document.getElementById('salaryCalcMonthly').textContent = formatYen(monthlyTotal);
-    document.getElementById('salaryCalcSummer').textContent = formatYen(summer);
-    document.getElementById('salaryCalcWinter').textContent = formatYen(winter);
-    document.getElementById('salaryCalcOther').textContent = formatYen(other);
+    const monthly = parseFloat(document.getElementById('salaryMonthly').value) || 0;
+    const months = parseInt(document.getElementById('salaryMonths').value) || 12;
+    const total = (monthly * months) + (parseFloat(document.getElementById('salarySummerBonus').value) || 0) + (parseFloat(document.getElementById('salaryWinterBonus').value) || 0) + (parseFloat(document.getElementById('salaryOther').value) || 0);
+    const ded = calcSalaryDeduction(total);
     document.getElementById('salaryCalcTotal').textContent = formatYen(total);
-    document.getElementById('salaryCalcDeduction').textContent = formatYen(deduction);
-    document.getElementById('salaryCalcIncome').textContent = formatYen(income);
-
+    document.getElementById('salaryCalcDeduction').textContent = formatYen(ded);
+    document.getElementById('salaryCalcIncome').textContent = formatYen(Math.max(0, total - ded));
     return total;
 }
 
-function salaryToFurusato() {
-    const total = calcSalarySheet();
-    if (total <= 0) {
-        showToast('先に給与を計算してください', 'error');
-        return;
-    }
-    document.getElementById('simSalary').value = total;
-    // ふるさと納税タブに切り替え
-    document.querySelector('.tab-btn[data-tab="furusato"]').click();
-    showToast(`年収 ${formatYen(total)} をふるさと納税シミュレーターに反映しました ✓`, 'success');
+function saveSalary() {
+    state.salary = { monthly: parseFloat(document.getElementById('salaryMonthly').value) || 0, months: parseInt(document.getElementById('salaryMonths').value) || 12, summerBonus: parseFloat(document.getElementById('salarySummerBonus').value) || 0, winterBonus: parseFloat(document.getElementById('salaryWinterBonus').value) || 0, other: parseFloat(document.getElementById('salaryOther').value) || 0 };
+    persist(); showToast('保存しました', 'success');
 }
 
-function resetSalary() {
-    ['salaryMonthly', 'salarySummerBonus', 'salaryWinterBonus', 'salaryOther'].forEach(id => {
-        document.getElementById(id).value = '';
+function loadSalary() {
+    const s = state.salary || {};
+    const ids = ['salaryMonthly', 'salarySummerBonus', 'salaryWinterBonus', 'salaryOther'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = s[id.replace('salary', '').charAt(0).toLowerCase() + id.replace('salary', '').slice(1)] || '';
     });
-    document.getElementById('salaryMonths').value = '12';
-    ['salaryCalcMonthly', 'salaryCalcSummer', 'salaryCalcWinter',
-        'salaryCalcOther', 'salaryCalcTotal', 'salaryCalcDeduction', 'salaryCalcIncome'].forEach(id => {
-            document.getElementById(id).textContent = '¥0';
-        });
+    const monthsEl = document.getElementById('salaryMonths');
+    if (monthsEl) monthsEl.value = s.months || 12;
+    calcSalarySheet();
 }
 
 // ============================================================
 // イベントリスナー登録
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // パスワードロック画面チェック
+    initState();
     checkAndShowLockScreen();
     initLockScreen();
-
-    initState();
-
-    // 今日の日付をデフォルト
-    document.getElementById('inputDate').value = today();
-
-    // UI初期化
     populateAccountSelects();
     populateTagSelects();
     populatePaymentSelect();
     populatePLYears();
     populateBSYears();
+    renderSettingsUI();
     renderRecentTable();
-    updateSortIcons();
     renderJournalTable();
     renderPL();
-    renderSettingsUI();
-
+    renderBS();
+    loadInvestment();
+    loadSalary();
+    renderTrash();
+    
     // タブ切り替え
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    document.querySelectorAll('.tab-nav .tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const tab = btn.dataset.tab;
+            const tabId = btn.dataset.tab;
+            // 全タブのボタンとコンテンツから active クラスを除去
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // クリックされたタブをアクティブにする
             btn.classList.add('active');
-            document.getElementById(`tab-${tab}`).classList.add('active');
-
-            if (tab === 'pl') renderPL();
-            if (tab === 'journal') renderJournalTable();
-            if (tab === 'bs') renderBS();
-            if (tab === 'investment') loadInvestment();
+            const targetContent = document.getElementById('tab-' + tabId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            // タブに応じた再描画処理
+            if (tabId === 'journal') renderJournalTable();
+            if (tabId === 'pl') renderPL();
+            if (tabId === 'bs') renderBS();
+            if (tabId === 'settings') renderSettingsUI();
+            if (tabId === 'trash') renderTrash();
         });
     });
 
-    // B/S 年度セレクタ初期化
-    populateBSYears();
 
-    // 金額プレビュー
-    ['inputAmount', 'inputRatio'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', updateAmountPreview);
-    });
-    updateAmountPreview();
+    const dateInput = document.getElementById('inputDate');
+    if (dateInput) dateInput.value = today();
 
-    // インラインタグ追加
-    document.getElementById('btnAddInlineTag')?.addEventListener('click', () => {
-        let val = document.getElementById('inputInlineTag').value.trim();
-        if (!val) return;
-        if (!val.startsWith('#')) val = '#' + val;
-
-        if (!state.settings.tags.includes(val)) {
-            state.settings.tags.push(val);
-            persist();
-            renderSettingsUI();
-            populateTagSelects();
-        }
-
-        const cb = document.querySelector(`#formTagSelection input[value="${val}"]`);
-        if (cb) cb.checked = true;
-        document.getElementById('inputInlineTag').value = '';
-    });
-
-    // 領収書フォーム送信
-    document.getElementById('receiptForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const date = document.getElementById('inputDate').value;
-        const account = document.getElementById('inputAccount').value;
-        const subAccount = document.getElementById('inputSubAccount').value.trim();
-        const amount = parseFloat(document.getElementById('inputAmount').value);
-
-        const checkedTags = Array.from(document.querySelectorAll('#formTagSelection input:checked')).map(cb => cb.value);
-        const tag = checkedTags.join(' ');
-
-        const ratio = parseFloat(document.getElementById('inputRatio').value) || 100;
-        const paymentMethod = document.getElementById('inputPayment').value;
-        const description = document.getElementById('inputDesc').value.trim();
-
-        if (!date || !account || isNaN(amount) || amount <= 0 || !paymentMethod) {
-            showToast('必須項目を入力してください', 'error');
-            return;
-        }
-
-        if (editingEntryId) {
-            const idx = state.entries.findIndex(entry => entry.id === editingEntryId);
-            if (idx >= 0) {
-                const { totalAfterRatio } = calcAmount(amount, ratio);
-                state.entries[idx] = {
-                    ...state.entries[idx],
-                    date, account, subAccount, amount, tag, ratio, paymentMethod, description,
-                    totalAfterRatio
-                };
-                persist();
-                showToast('仕訳を更新しました ✓', 'success');
+    const receiptForm = document.getElementById('receiptForm');
+    if (receiptForm) {
+        receiptForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const tagCbs = document.querySelectorAll('#formTagSelection input[type="checkbox"]:checked');
+            const tags = Array.from(tagCbs).map(cb => cb.value).join(' ');
+            const formData = {
+                date: document.getElementById('inputDate').value,
+                account: document.getElementById('inputAccount').value,
+                amount: parseFloat(document.getElementById('inputAmount').value) || 0,
+                paymentMethod: document.getElementById('inputPayment').value,
+                ratio: parseFloat(document.getElementById('inputRatio').value) || 100,
+                tag: tags,
+                description: document.getElementById('inputDesc').value
+            };
+            if (!formData.account || isNaN(formData.amount) || !formData.paymentMethod) {
+                showToast('未入力の項目があります', 'error'); return;
             }
-            clearEditMode();
-            if (editOriginTab) {
-                const targetTab = document.querySelector(`.tab-btn[data-tab="${editOriginTab}"]`);
-                if (targetTab) targetTab.click();
-                editOriginTab = null;
+            if (editingEntryId) {
+                const idx = state.entries.findIndex(entry => entry.id === editingEntryId);
+                if (idx !== -1) {
+                    const { after } = calcAmount(formData.amount, formData.ratio);
+                    state.entries[idx] = { ...state.entries[idx], ...formData, totalAfterRatio: after };
+                    showToast('仕訳を更新しました ✓', 'success');
+                }
+                clearEditMode();
+            } else {
+                addEntry(formData);
+                showToast('登録しました ✓', 'success');
             }
-        } else {
-            addEntry({ date, account, subAccount, amount, tag, ratio, paymentMethod, description });
-            showToast(`「${account}」${formatYen(amount)} を登録しました ✓`, 'success');
-        }
-
-        // フォームリセット
-        document.getElementById('receiptForm').reset();
-        document.querySelectorAll('#formTagSelection input[type="checkbox"]').forEach(cb => cb.checked = false);
-        document.getElementById('inputDate').value = today();
-        document.getElementById('inputRatio').value = 100;
-        updateAmountPreview();
-
-        renderRecentTable();
-        renderJournalTable();
-        renderPL();
-    });
-
-    // フォームクリア
-    document.getElementById('btnClearForm').addEventListener('click', () => {
-        document.getElementById('receiptForm').reset();
-        document.querySelectorAll('#formTagSelection input[type="checkbox"]').forEach(cb => cb.checked = false);
-        document.getElementById('inputDate').value = today();
-        document.getElementById('inputRatio').value = 100;
-        updateAmountPreview();
-        clearEditMode();
-    });
-
-    // ヘッダーのCSV出力ボタン（モーダルを開く）
-    document.getElementById('btnExportCSV')?.addEventListener('click', () => {
-        document.getElementById('csvModalOverlay').classList.add('open');
-    });
-
-    // CSV出力モーダルの各ボタン
-    document.getElementById('btnExportJournalCSV')?.addEventListener('click', () => {
-        exportCSV();
-        document.getElementById('csvModalOverlay').classList.remove('open');
-    });
-    document.getElementById('btnExportPLCSVModal')?.addEventListener('click', () => {
-        exportPLCSV();
-        document.getElementById('csvModalOverlay').classList.remove('open');
-    });
-    document.getElementById('btnExportBSCSVModal')?.addEventListener('click', () => {
-        exportBSCSV();
-        document.getElementById('csvModalOverlay').classList.remove('open');
-    });
-
-    // CSV出力モーダルキャンセル
-    document.getElementById('csvModalCancel')?.addEventListener('click', () => {
-        document.getElementById('csvModalOverlay').classList.remove('open');
-    });
-    document.getElementById('csvModalOverlay')?.addEventListener('click', (e) => {
-        if (e.target === document.getElementById('csvModalOverlay')) {
-            document.getElementById('csvModalOverlay').classList.remove('open');
-        }
-    });
-
-    // 全データ削除
-    document.getElementById('btnClearAll').addEventListener('click', () => {
-        showModal('全データ削除', 'すべての仕訳データを削除します。この操作は元に戻せません。', () => {
-            state.entries = [];
-            persist();
-            renderRecentTable();
-            renderJournalTable();
-            renderPL();
-            showToast('全データを削除しました', 'success');
-            closeModal();
+            persist(); renderRecentTable(); renderJournalTable(); renderPL();
+            receiptForm.reset(); if (dateInput) dateInput.value = today();
+            updateAmountPreview();
         });
+    }
+
+    document.getElementById('btnClearForm')?.addEventListener('click', () => {
+        document.getElementById('receiptForm')?.reset();
+        if (dateInput) dateInput.value = today();
+        clearEditMode(); updateAmountPreview();
     });
 
-    // 仕訳帳フィルター
-    document.getElementById('btnFilter').addEventListener('click', () => {
+    document.getElementById('btnFilter')?.addEventListener('click', () => {
         journalFilter.month = document.getElementById('filterMonth').value;
         journalFilter.account = document.getElementById('filterAccount').value;
         journalFilter.tag = document.getElementById('filterTag').value;
         renderJournalTable();
     });
-
-    document.getElementById('btnClearFilter').addEventListener('click', () => {
-        document.getElementById('filterMonth').value = '';
-        document.getElementById('filterAccount').value = '';
-        document.getElementById('filterTag').value = '';
+    document.getElementById('btnClearFilter')?.addEventListener('click', () => {
+        ['filterMonth', 'filterAccount', 'filterTag'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         journalFilter = { month: '', account: '', tag: '' };
         renderJournalTable();
     });
 
-    // ソートUI初期化とイベントリスナー
-    document.querySelectorAll('.journal-table th.sortable').forEach(th => {
-        th.addEventListener('click', () => {
-            const key = th.dataset.sort;
-            if (journalSort.key === key) {
-                journalSort.order = journalSort.order === 'asc' ? 'desc' : 'asc';
-            } else {
-                journalSort.key = key;
-                journalSort.order = 'asc';
-            }
-            updateSortIcons();
-            renderJournalTable();
-        });
-    });
-
-    // P/L更新・CSV出力
-    document.getElementById('btnUpdatePL').addEventListener('click', renderPL);
+    // CSV出力関連
+    document.getElementById('btnExportCSV')?.addEventListener('click', () => document.getElementById('csvModalOverlay').classList.add('open'));
+    document.getElementById('csvModalCancel')?.addEventListener('click', () => document.getElementById('csvModalOverlay').classList.remove('open'));
+    document.getElementById('btnExportJournalCSVModal')?.addEventListener('click', () => { exportCSV(); document.getElementById('csvModalOverlay').classList.remove('open'); });
+    document.getElementById('btnExportPLCSVModal')?.addEventListener('click', () => { exportPLCSV(); document.getElementById('csvModalOverlay').classList.remove('open'); });
+    document.getElementById('btnExportBSCSVModal')?.addEventListener('click', () => { exportBSCSV(); document.getElementById('csvModalOverlay').classList.remove('open'); });
+    
+    // 各タブ内ボタン
+    document.getElementById('btnUpdatePL')?.addEventListener('click', renderPL);
     document.getElementById('btnExportPLCSV')?.addEventListener('click', exportPLCSV);
-
-    // 設定保存
-    document.getElementById('btnSaveSettings').addEventListener('click', () => {
-        state.settings.name = document.getElementById('settingName').value;
-        state.settings.type = document.getElementById('settingType').value;
-        state.settings.year = parseInt(document.getElementById('settingYear').value) || 2025;
-        state.settings.incomeCounterAccount = document.getElementById('settingIncomeCounter').value.trim() || '事業主貸';
-        state.settings.expenseCounterAccount = document.getElementById('settingExpenseCounter').value.trim() || '事業主借';
-        persist();
-        populatePLYears();
-        populateAccountSelects();
-        populatePaymentSelect();
-        renderJournalTable();
-        showToast('設定を保存しました ✓', 'success');
-    });
-
-    // データバックアップ（JSON）
-    document.getElementById('btnExportJSON')?.addEventListener('click', exportJSON);
-
-    // データ復元（JSON インポート）
-    document.getElementById('inputFileJSON')?.addEventListener('change', handleImportJSON);
-
-    // 支払方法追加
-    document.getElementById('btnAddPayment').addEventListener('click', () => {
-        const name = document.getElementById('newPaymentName').value.trim();
-        const type = document.getElementById('newPaymentType').value;
-        if (!name) { showToast('支払方法名を入力してください', 'error'); return; }
-        if (state.settings.payments.find(p => p.name === name)) {
-            showToast('既に登録されています', 'error'); return;
-        }
-        state.settings.payments.push({ name, type });
-        persist();
-        document.getElementById('newPaymentName').value = '';
-        renderSettingsUI();
-        populatePaymentSelect();
-        showToast(`「${name}」を追加しました ✓`, 'success');
-    });
-
-    // 経費科目追加
-    document.getElementById('btnAddExpenseAccount').addEventListener('click', () => {
-        const val = document.getElementById('newExpenseAccount').value.trim();
-        if (!val) { showToast('科目名を入力してください', 'error'); return; }
-        if (state.settings.expenseAccounts.includes(val)) {
-            showToast('既に登録されています', 'error'); return;
-        }
-        state.settings.expenseAccounts.push(val);
-        persist();
-        document.getElementById('newExpenseAccount').value = '';
-        renderSettingsUI();
-        populateAccountSelects();
-        showToast(`「${val}」を追加しました ✓`, 'success');
-    });
-
-    // 収入科目追加
-    document.getElementById('btnAddIncomeAccount').addEventListener('click', () => {
-        const val = document.getElementById('newIncomeAccount').value.trim();
-        if (!val) { showToast('科目名を入力してください', 'error'); return; }
-        if (state.settings.incomeAccounts.includes(val)) {
-            showToast('既に登録されています', 'error'); return;
-        }
-        state.settings.incomeAccounts.push(val);
-        persist();
-        document.getElementById('newIncomeAccount').value = '';
-        renderSettingsUI();
-        populateAccountSelects();
-        showToast(`「${val}」を追加しました ✓`, 'success');
-    });
-
-    // タグ追加
-    document.getElementById('btnAddTag').addEventListener('click', () => {
-        let val = document.getElementById('newTagInput').value.trim();
-        if (!val) { showToast('タグを入力してください', 'error'); return; }
-        if (!val.startsWith('#')) val = '#' + val;
-
-        if (state.settings.tags.includes(val)) {
-            showToast('既に登録されています', 'error'); return;
-        }
-        state.settings.tags.push(val);
-        persist();
-        document.getElementById('newTagInput').value = '';
-        renderSettingsUI();
-        populateTagSelects();
-        showToast(`「${val}」を追加しました ✓`, 'success');
-    });
-
-    // モーダルキャンセル
-    document.getElementById('modalCancel').addEventListener('click', closeModal);
-    document.getElementById('modalOverlay').addEventListener('click', (e) => {
-        if (e.target === document.getElementById('modalOverlay')) closeModal();
-    });
-
-    // 12ヶ月複製モーダルキャンセル
-    document.getElementById('repeatModalCancel').addEventListener('click', () => {
-        document.getElementById('repeatModalOverlay').classList.remove('open');
-        repeatTargetId = null;
-    });
-    document.getElementById('repeatModalOverlay').addEventListener('click', (e) => {
-        if (e.target === document.getElementById('repeatModalOverlay')) {
-            document.getElementById('repeatModalOverlay').classList.remove('open');
-            repeatTargetId = null;
-        }
-    });
-
-    // モーダル確認
-    document.getElementById('modalConfirm').addEventListener('click', () => {
-        if (pendingConfirmCallback) pendingConfirmCallback();
-    });
-
-    document.getElementById('repeatModalConfirm').addEventListener('click', () => {
-        executeRepeat();
-    });
-
-    // ふるさと納税シミュレーター
-    document.getElementById('btnCalcFurusato')?.addEventListener('click', () => {
-        const salary = parseFloat(document.getElementById('simSalary').value) || 0;
-        if (salary <= 0) {
-            showToast('給与収入を入力してください', 'error');
-            return;
-        }
-        const result = calcFurusatoLimit();
-        displayFurusatoResult(result);
-    });
-
-    document.getElementById('btnLoadFromPL')?.addEventListener('click', loadPLDataToSim);
-    document.getElementById('btnResetSim')?.addEventListener('click', resetSimulator);
-
-    // 貸借対照表とP/Lの年数変更イベント（保存）
-    document.getElementById('plYear')?.addEventListener('change', (e) => {
-        state.settings.plYear = parseInt(e.target.value);
-        persist();
-    });
-    document.getElementById('bsYear')?.addEventListener('change', (e) => {
-        state.settings.bsYear = parseInt(e.target.value);
-        persist();
-    });
-
-    // 貸借対照表
     document.getElementById('btnSaveBS')?.addEventListener('click', saveBS);
     document.getElementById('btnUpdateBS')?.addEventListener('click', renderBS);
     document.getElementById('btnExportBSCSV')?.addEventListener('click', exportBSCSV);
+    document.getElementById('btnExportJournalCSV')?.addEventListener('click', exportCSV);
 
-    // 投資収益
+    document.getElementById('btnSaveSettings')?.addEventListener('click', () => {
+        state.settings.name = document.getElementById('settingName').value;
+        state.settings.type = document.getElementById('settingType').value;
+        state.settings.year = parseInt(document.getElementById('settingYear').value) || 2026;
+        state.settings.incomeCounterAccount = document.getElementById('settingIncomeCounter').value.trim() || '事業主貸';
+        state.settings.expenseCounterAccount = document.getElementById('settingExpenseCounter').value.trim() || '事業主借';
+        persist(); showToast('設定を保存しました ✓', 'success');
+        populateAccountSelects(); populatePaymentSelect(); renderJournalTable(); renderSettingsUI();
+    });
+
+    document.getElementById('btnExportJSON')?.addEventListener('click', exportJSON);
+    document.getElementById('btnTriggerImport')?.addEventListener('click', () => document.getElementById('inputFileJSON').click());
+    document.getElementById('inputFileJSON')?.addEventListener('change', handleImportJSON);
+
+    document.getElementById('btnAddPayment')?.addEventListener('click', () => {
+        const el = document.getElementById('newPaymentName');
+        const val = el?.value.trim();
+        if(!val) return;
+        state.settings.payments.push({ name: val, type: 'credit' });
+        persist(); if (el) el.value = ''; renderSettingsUI(); populatePaymentSelect();
+        showToast('支払方法を追加しました', 'success');
+    });
+
+    document.getElementById('btnAddExpenseAccount')?.addEventListener('click', () => {
+        const el = document.getElementById('newExpenseAccount');
+        const val = el?.value.trim();
+        if(!val) return;
+        state.settings.expenseAccounts.push(val);
+        persist(); if (el) el.value = ''; renderSettingsUI(); populateAccountSelects();
+        showToast('経費科目を追加しました', 'success');
+    });
+
+    document.getElementById('btnAddIncomeAccount')?.addEventListener('click', () => {
+        const el = document.getElementById('newIncomeAccount');
+        const val = el?.value.trim();
+        if(!val) return;
+        state.settings.incomeAccounts.push(val);
+        persist(); if (el) el.value = ''; renderSettingsUI(); populateAccountSelects();
+        showToast('収入科目を追加しました', 'success');
+    });
+
+    document.getElementById('btnAddTag')?.addEventListener('click', () => {
+        const el = document.getElementById('newTagInput');
+        let val = el?.value.trim();
+        if(!val) return;
+        if(!val.startsWith('#')) val = '#' + val;
+        state.settings.tags.push(val);
+        persist(); if (el) el.value = ''; renderSettingsUI(); populateTagSelects();
+        showToast('タグを追加しました', 'success');
+    });
+
+    document.getElementById('btnSaveEdit')?.addEventListener('click', saveEditEntry);
+    document.getElementById('btnCancelEdit')?.addEventListener('click', closeEditModal);
+    document.getElementById('editEntryAmount')?.addEventListener('input', updateEditAmountPreview);
+    document.getElementById('editEntryRatio')?.addEventListener('input', updateEditAmountPreview);
+
+    document.getElementById('btnEmptyTrash')?.addEventListener('click', emptyTrash);
+
+    document.getElementById('modalConfirm')?.addEventListener('click', () => { if(pendingConfirmCallback) pendingConfirmCallback(); });
+    document.getElementById('modalCancel')?.addEventListener('click', closeModal);
+    document.getElementById('repeatModalConfirm')?.addEventListener('click', executeRepeat);
+    document.getElementById('repeatModalCancel')?.addEventListener('click', () => {
+        document.getElementById('repeatModalOverlay')?.classList.remove('open');
+        repeatTargetId = null;
+    });
+
+    document.getElementById('btnCalcFurusato')?.addEventListener('click', () => {
+        const salary = parseFloat(document.getElementById('simSalary').value) || 0;
+        if (salary <= 0) { showToast('給与収入を入力してください', 'error'); return; }
+        displayFurusatoResult(calcFurusatoLimit());
+    });
+    document.getElementById('btnLoadFromPL')?.addEventListener('click', loadPLDataToSim);
+    document.getElementById('btnResetSim')?.addEventListener('click', resetSimulator);
+
     document.getElementById('btnCalcInvest')?.addEventListener('click', calcInvestment);
     document.getElementById('btnSaveInvest')?.addEventListener('click', saveInvestment);
     document.getElementById('btnResetInvest')?.addEventListener('click', resetInvestment);
 
-    // 給与計算
     document.getElementById('btnCalcSalary')?.addEventListener('click', calcSalarySheet);
+    document.getElementById('btnSaveSalary')?.addEventListener('click', saveSalary);
     document.getElementById('btnResetSalary')?.addEventListener('click', resetSalary);
-        document.getElementById('btnSalaryToFurusato')?.addEventListener('click', salaryToFurusato);
+    document.getElementById('btnSalaryToFurusato')?.addEventListener('click', salaryToFurusato);
 
-    // 全データ削除
     document.getElementById('btnClearAll')?.addEventListener('click', () => {
-        showModal('警告', 'すべてのデータを消去して初期化しますか？（この操作は取り消せません）', () => {
-            localStorage.removeItem(STORAGE_KEY);
-            location.reload();
+        showModal('全データ削除', 'すべてのデータを削除し初期化しますか？', () => {
+             localStorage.removeItem(STORAGE_KEY); location.reload();
         });
     });
+
+    document.querySelectorAll('.journal-table th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const key = th.dataset.sort;
+            if (journalSort.key === key) journalSort.order = (journalSort.order === 'asc' ? 'desc' : 'asc');
+            else { journalSort.key = key; journalSort.order = 'asc'; }
+            updateSortIcons(); renderJournalTable();
+        });
+    });
+
+    (function initCalculator() {
+        const toggleBtn = document.getElementById('calcToggleBtn');
+        const panel = document.getElementById('calcPanel');
+        const expressionEl = document.getElementById('calcExpression');
+        const valueEl = document.getElementById('calcValue');
+        const applyBtn = document.getElementById('calcApplyBtn');
+        if (!toggleBtn || !panel) return;
+        let calcExpression = '';
+        let calcResult = 0;
+        let justCalculated = false;
+        document.addEventListener('click', (ev) => { if (panel && !panel.contains(ev.target) && ev.target !== toggleBtn) panel.classList.remove('open'); });
+        toggleBtn.addEventListener('click', (ev) => { ev.stopPropagation(); panel.classList.toggle('open'); });
+        function updateDisplay() {
+            if (expressionEl) expressionEl.textContent = calcExpression || '0';
+            if (valueEl) valueEl.textContent = calcResult !== null ? String(calcResult) : '0';
+        }
+        function evaluateExpression(expr) {
+            let sanitized = expr.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-');
+            if (/[^0-9+\-*/.() ]/.test(sanitized)) return null;
+            try {
+                const res = Function('"use strict"; return (' + sanitized + ')')();
+                return isFinite(res) ? Math.round(res * 100) / 100 : null;
+            } catch (e) { return null; }
+        }
+        panel.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-calc]'); if (!btn) return;
+            const val = btn.dataset.calc;
+            if (val === 'C') { calcExpression = ''; calcResult = 0; justCalculated = false; }
+            else if (val === '=') {
+                const res = evaluateExpression(calcExpression);
+                if (res !== null) { calcResult = res; justCalculated = true; } else { calcResult = 'Error'; justCalculated = false; }
+            }
+            else if (['+', '−', '×', '÷'].includes(val)) {
+                if (justCalculated) { calcExpression = String(calcResult) + ' ' + val + ' '; justCalculated = false; } else { calcExpression += ' ' + val + ' '; }
+            }
+            else {
+                if (justCalculated) { calcExpression = val; calcResult = 0; justCalculated = false; } else { calcExpression += val; }
+                const pre = evaluateExpression(calcExpression); if (pre !== null) calcResult = pre;
+            }
+            updateDisplay();
+        });
+        applyBtn?.addEventListener('click', () => {
+            const amount = Math.round(parseFloat(calcResult));
+            const inputAmount = document.getElementById('inputAmount');
+            if (inputAmount && !isNaN(amount) && amount >= 0) {
+                inputAmount.value = amount; updateAmountPreview(); showToast(`¥${amount.toLocaleString()} を反映しました`, 'success');
+                panel.classList.remove('open');
+            }
+        });
+    })();
 });
 
 function updateSortIcons() {
